@@ -66,7 +66,7 @@ class PLTrainerConfig:
     devices: int = 1
     cudnn_benchmark: bool = True
     log_freq: int = 10
-    monitor: str = "val/loss"
+    monitor: str = "val/accuracy"
     precision: int = 32
 
 
@@ -85,6 +85,7 @@ class MiscConfig:
 
 @dataclass
 class SAMConfig:
+    use_sam: bool = True
     adaptive: bool = False
     rho: float = 0.05
 
@@ -98,7 +99,7 @@ class FDConfig:
     trainer: TrainerConfig = TrainerConfig()
     misc: MiscConfig = MiscConfig()
     sam: SAMConfig = SAMConfig()
-    project: str = "sam"
+    project: str = "r252_sam"
     group: str = "default"
 
 

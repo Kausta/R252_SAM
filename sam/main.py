@@ -45,7 +45,10 @@ def main():
             checkpoint_callback
         ],
         precision=config.trainer.pl.precision,
-        num_sanity_val_steps=0
+        num_sanity_val_steps=0,
+        # TODO: Remove following two lines and do this in the trainer when we switch to manual optimization
+        gradient_clip_val=config.optimizer.clip_grad_norm,
+        gradient_clip_algorithm="norm"
     )
 
     Model = getattr(trainers, config.trainer.trainer)
