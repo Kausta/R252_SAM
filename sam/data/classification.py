@@ -6,7 +6,7 @@ import torch.utils.data as data
 from torchvision import transforms as T
 import torchvision.datasets as datasets
 
-import sam.nn as SNN
+import sam.nn as snn
 
 from sam.util.config import ConfigType
 
@@ -39,7 +39,7 @@ class ClassificationDataset(data.Dataset):
                 T.Normalize((0.49139968, 0.48215841, 0.44653091), (0.24703223, 0.24348513, 0.26158784)),
             ])
             if training and config.data.use_cutout:
-                transforms.append(SNN.Cutout(length=16, inplace=True))
+                transforms.append(snn.Cutout(length=16, inplace=True))
             self.dataset = datasets.CIFAR10(self.data_root, train=training, transform=T.Compose(transforms), download=False)
         else:
             raise ValueError("Unknown dataset")

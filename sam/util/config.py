@@ -13,14 +13,15 @@ __all__ = ["FDConfig", "ConfigType", "load_config", "print_config",
 
 @dataclass
 class ModelConfig:
-    model_cls: str = "WideResNet"
+    model_cls: str = "WideResnet"
+    num_inputs: int = 3
+    # Dimension of the output of the model (ie number of classes for a classification problem).
+    num_outputs: int = 10
     # How many resnet blocks to add to each group (should be 4 blocks for a WRN28, and 6 for a WRN40).
     wrn_blocks: int = 4
     # The multiplier to apply to the number of filters in the model (1 is classical resnet, 10 for WRN28-10, etc...).
     wrn_multiplier: int = 10
-    # Dimension of the output of the model (ie number of classes for a classification problem).
-    num_outputs: int = 10
-    
+    wrn_use_additional_skips: bool = False
 
 
 @dataclass
@@ -35,7 +36,6 @@ class OptimizerConfig:
     sched_interval: str = "step"
     warmup_epochs: int = 0
     clip_grad_norm: Optional[float] = 5.0
-   
 
 
 @dataclass
@@ -82,10 +82,12 @@ class TrainerConfig:
 class MiscConfig:
     seed: int = 42
 
-@dataclass 
+
+@dataclass
 class SAMConfig:
     adaptive: bool = False
     rho: float = 0.05
+
 
 @dataclass
 class FDConfig:
