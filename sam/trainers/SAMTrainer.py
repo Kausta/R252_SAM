@@ -16,6 +16,8 @@ from sam.nn.optim import get_cosine_schedule_with_warmup
 
 from torchmetrics import Accuracy
 
+from torchcontrib.optim import SWA 
+
 __all__ = ["SAMTrainer"]
 
 
@@ -33,6 +35,9 @@ class SAMTrainer(pl.LightningModule):
         
         self.loss_ce = nn.CrossEntropyLoss(label_smoothing=0.0 if config.loss.label_smoothing is None else config.loss.label_smoothing)
         self.acc = nn.ModuleDict({f"{phase}_acc": Accuracy(task='multiclass', num_classes=config.model.num_outputs) for phase in ["train", "val", "test"]})
+
+        # if self.hparams.sam.use_sam:
+        #     self.automatic_optimization = False
 
         self.automatic_optimization = False
 
@@ -62,9 +67,14 @@ class SAMTrainer(pl.LightningModule):
     def training_step(self, batch, batch_idx):
         x, y = batch
 
+        # if not self.hparams.sam.use_sam: # automatic optimisation should be on
+        #     out = self.loss(x,y, 'train')
+        #     self.log_all(out, 'train')
+        #     return out['loss']
+        
+
         opt = self.optimizers()
         lr_sched = self.lr_schedulers()
-
         opt.zero_grad()
         out = self.loss(x, y, "train")
         self.manual_backward(out["loss"])
@@ -129,6 +139,18 @@ class SAMTrainer(pl.LightningModule):
                              momentum=opt_params.momentum,
                              weight_decay=opt_params.wd,
                              nesterov=opt_params.nesterov)
+        # elif opt_name == "swa":
+        #     base_opt = torch.optim.SGD(self.model.parameters(), 
+        #                             lr=opt_params.lr, 
+        #                             momentum=opt_params.momentum,
+        #                             weight_decay=opt_params.wd,
+        #                             nesterov=opt_params.nesterov)
+        
+        #     opt = SWA(base_opt, 
+        #             swa_start=opt_params.swa_start, 
+        #             swa_freq=opt_params.swa_freq, 
+        #             swa_lr=opt_params.swa_lr)
+
         else:
             raise ValueError(f"Unknown optimizer {opt_name}")
 

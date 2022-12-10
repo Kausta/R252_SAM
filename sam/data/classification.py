@@ -21,7 +21,7 @@ class ClassificationDataset(data.Dataset):
         self.phase = phase
 
         dataset = config.data.dataset
-        assert dataset in ["cifar10"]
+        assert dataset in ["cifar10", "imagenet"]
         
         training = self.phase == "train"
         if dataset == "cifar10":
@@ -40,7 +40,9 @@ class ClassificationDataset(data.Dataset):
             ])
             if training and config.data.use_cutout:
                 transforms.append(snn.Cutout(length=16, inplace=True))
-            self.dataset = datasets.CIFAR10(self.data_root, train=training, transform=T.Compose(transforms), download=False)
+            self.dataset = datasets.CIFAR10(self.data_root, train=training, transform=T.Compose(transforms), download=True)
+        elif dataset == 'imagenet':
+            self.dataset = datasets.ImageNet(self.data_root, train=training)
         else:
             raise ValueError("Unknown dataset")
     

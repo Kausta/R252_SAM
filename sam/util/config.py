@@ -22,6 +22,9 @@ class ModelConfig:
     # The multiplier to apply to the number of filters in the model (1 is classical resnet, 10 for WRN28-10, etc...).
     wrn_multiplier: int = 10
     wrn_use_additional_skips: bool = False
+    
+    # Whether I am importing an already trained model
+    pretrained: bool = False
 
 
 @dataclass
@@ -85,6 +88,13 @@ class MiscConfig:
 
 
 @dataclass
+class SWAConfig:
+    use_swa: bool = False
+    swa_start: int = 30
+    swa_freq: int = 1
+    swa_lr: float = 0.01
+
+@dataclass
 class SAMConfig:
     use_sam: bool = True
     adaptive: bool = False
@@ -100,6 +110,7 @@ class FDConfig:
     trainer: TrainerConfig = TrainerConfig()
     misc: MiscConfig = MiscConfig()
     sam: SAMConfig = SAMConfig()
+    swa: SWAConfig = SWAConfig()
     project: str = "r252_sam"
     group: str = "default"
 

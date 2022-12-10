@@ -1,0 +1,82 @@
+project: r252_sam
+group: sam_swa_comparison
+
+trainer:
+  max_epochs: 40
+  pl:
+    accerelator: mps
+    devices: 1
+  trainer: SAMTrainer
+
+model:
+  model_cls: MobileNetV2
+
+sam:
+  use_sam: true
+  adaptive: false
+  rho: 0.05
+
+data:
+  dataset: cifar10
+
+optimizer:
+  clip_grad_norm: 5.0
+  lr: 0.1
+  momentum: 0.9
+  nesterov: true
+  optimizer: sgd
+  sched_interval: step
+  scheduler: cosine
+  warmup_epochs: 0
+  wd: 0.0005
+  
+# data:
+#   data_root: /Users/antoniaboca/data
+#   dataset: cifar10
+#   dataset_cls: ClassificationDataset
+#   test_batch_size: 256
+#   test_workers: 4
+#   train_batch_size: 256
+#   train_workers: 4
+#   use_autoaugment: true
+#   use_cutout: true
+#   val_batch_size: 256
+#   val_workers: 4
+# group: sam_swa_comparison
+# loss:
+#   label_smoothing: null
+# misc:
+#   seed: 42
+# model:
+#   model_cls: WideResnet
+#   num_inputs: 3
+#   num_outputs: 10
+#   wrn_blocks: 4
+#   wrn_multiplier: 10
+#   wrn_use_additional_skips: false
+# optimizer:
+#   clip_grad_norm: 5.0
+#   lr: 0.1
+#   momentum: 0.9
+#   nesterov: true
+#   optimizer: sgd
+#   sched_interval: step
+#   scheduler: cosine
+#   warmup_epochs: 0
+#   wd: 0.0005
+# project: r252_sam
+# sam:
+#   adaptive: false
+#   rho: 0.05
+#   use_sam: true
+# trainer:
+#   max_epochs: 20
+#   out_dir: /Users/antoniaboca/outputs/sam
+#   pl:
+#     accerelator: gpu
+#     cudnn_benchmark: true
+#     devices: 1
+#     log_freq: 10
+#     monitor: val/accuracy
+#     precision: 32
+#   trainer: SAMTrainer
