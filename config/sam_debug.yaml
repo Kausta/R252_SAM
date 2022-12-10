@@ -1,10 +1,10 @@
 project: r252_sam
-group: debug
+group: sam_debug
 
 trainer:
   max_epochs: 20
 
 sam:
-  use_sam: false
+  use_sam: true
   adaptive: false
   rho: 0.05

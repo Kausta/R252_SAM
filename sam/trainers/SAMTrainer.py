@@ -8,6 +8,7 @@ import pytorch_lightning as pl
 import lpips
 
 import sam.nn as snn
+import sam.nn.functional as SF
 import sam.models as models
 
 from sam.util import ConfigType
@@ -32,6 +33,8 @@ class SAMTrainer(pl.LightningModule):
         
         self.loss_ce = nn.CrossEntropyLoss(label_smoothing=0.0 if config.loss.label_smoothing is None else config.loss.label_smoothing)
         self.acc = nn.ModuleDict({f"{phase}_acc": Accuracy(task='multiclass', num_classes=config.model.num_outputs) for phase in ["train", "val", "test"]})
+
+        self.automatic_optimization = False
 
     def forward(self, x: torch.Tensor) -> torch.Tensor:
         pred = self.model(x)
@@ -58,30 +61,74 @@ class SAMTrainer(pl.LightningModule):
 
     def training_step(self, batch, batch_idx):
         x, y = batch
+
+        opt = self.optimizers()
+        lr_sched = self.lr_schedulers()
+
+        opt.zero_grad()
         out = self.loss(x, y, "train")
+        self.manual_backward(out["loss"])
+        if self.hparams.sam.use_sam:
+            def closure():
+                SF.disable_running_stats(self.model)
+                second_step_loss = self.loss_ce(self.forward(x), y)
+                self.manual_backward(second_step_loss)
+                self.clip_gradients(
+                    optimizer=opt, 
+                    gradient_clip_val=self.hparams.optimizer.clip_grad_norm,
+                    gradient_clip_algorithm="norm")
+                return second_step_loss
+            opt.step(closure=closure)
+            SF.enable_running_stats(self.model)
+        else:
+            self.clip_gradients(
+                optimizer=opt, 
+                gradient_clip_val=self.hparams.optimizer.clip_grad_norm,
+                gradient_clip_algorithm="norm")
+            opt.step()
+
+        if lr_sched is not None and self.hparams.optimizer.sched_interval == "step":
+            lr_sched.step()
+        
         self.log_all(out, "train")
-        return out["loss"]
+
+    def training_epoch_end(self, outputs) -> None:
+        lr_sched = self.lr_schedulers()
+
+        if lr_sched is not None and self.hparams.optimizer.sched_interval == "epoch":
+            lr_sched.step()
 
     def validation_step(self, batch, batch_idx):
         x, y = batch
         out = self.loss(x, y, "val")
         self.log_all(out, "val")
-        return out["loss"]
 
     def test_step(self, batch, batch_idx):
         x, y = batch
         out = self.loss(x, y, "test")
         self.log_all(out, "test")
-        return out["loss"]
 
     def configure_optimizers(self):
         opt_params = self.hparams.optimizer
         opt_name = opt_params.optimizer
 
-        if opt_name == "sgd":
+        if self.hparams.sam.use_sam:
+            if opt_name == "sgd":
+                base_opt = torch.optim.SGD
+                kwargs = {
+                    "lr": opt_params.lr,
+                    "momentum": opt_params.momentum,
+                    "weight_decay": opt_params.wd,
+                    "nesterov": opt_params.nesterov
+                }
+            else:
+                raise ValueError(f"Unknown optimizer {opt_name}")
+            opt = snn.SAM(self.model.parameters(), base_opt, rho=self.hparams.sam.rho, adaptive=self.hparams.sam.adaptive, **kwargs)
+        elif opt_name == "sgd":
             opt = optim.SGD(self.model.parameters(), lr=opt_params.lr,
                              momentum=opt_params.momentum,
-                             weight_decay=opt_params.wd)
+                             weight_decay=opt_params.wd,
+                             nesterov=opt_params.nesterov)
         else:
             raise ValueError(f"Unknown optimizer {opt_name}")
 

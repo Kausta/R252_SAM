@@ -30,6 +30,7 @@ class OptimizerConfig:
     lr: float = 0.1
     momentum: float = 0.9
     wd: float = 5e-4
+    nesterov: bool = True
     # "cosine" or None
     scheduler: Optional[str] = "cosine"
     # "epoch" or "step" (Should be step for both cosine to match original jax implementation)
