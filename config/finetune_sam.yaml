@@ -1,4 +1,4 @@
-project: r252-sam
+project: r252_sam
 group: mobilenetv3_finetune_sam
 
 trainer:

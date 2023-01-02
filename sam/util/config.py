@@ -105,7 +105,7 @@ class FDConfig:
     trainer: TrainerConfig = TrainerConfig()
     misc: MiscConfig = MiscConfig()
     sam: SAMConfig = SAMConfig()
-    project: str = "r252-sam"
+    project: str = "r252_sam"
     group: str = "default"
 
 
