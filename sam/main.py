@@ -30,13 +30,15 @@ def main():
 
     datamodule = data.DataModule(config, getattr(data, config.data.dataset_cls))
 
-    wandb_logger = WandbLogger(project=config.project, group=config.group, log_model='all', entity='r252')
+    wandb_logger = WandbLogger(project=config.project, group=config.group, log_model='all')
     checkpoint_callback = ModelCheckpoint(
         os.path.join(config.trainer.out_dir, wandb_logger.experiment.name), 
-        monitor=config.trainer.pl.monitor, 
+        monitor=config.trainer.pl.monitor,
         save_last=True, 
-        save_top_k=1,
-        mode="min" if config.trainer.pl.monitor_decreasing else "max")
+        save_top_k=-1,
+        mode="min" if config.trainer.pl.monitor_decreasing else "max",
+        every_n_epochs=1
+    )
 
     trainer = pl.Trainer(
         logger=wandb_logger,
