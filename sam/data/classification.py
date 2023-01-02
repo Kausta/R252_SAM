@@ -6,6 +6,8 @@ import torch.utils.data as data
 from torchvision import transforms as T
 import torchvision.datasets as datasets
 
+from torchvision.models import MobileNet_V3_Small_Weights, MobileNet_V3_Large_Weights
+
 import sam.nn as snn
 
 from sam.util.config import ConfigType
@@ -33,10 +35,21 @@ class ClassificationDataset(data.Dataset):
                     T.RandomHorizontalFlip(),
                     T.RandomCrop(32, padding=4, padding_mode="reflect")
                 ])
+
+            if config.model.model_cls == "MobileNetV3":
+                if config.model.mobile_net_small:
+                    weights = MobileNet_V3_Small_Weights.IMAGENET1K_V1
+                else:
+                    weights = MobileNet_V3_Large_Weights.IMAGENET1K_V2
+                t = weights.transforms()
+                mean, std = t.mean, t.std
+            else:
+                mean, std = (0.49139968, 0.48215841, 0.44653091), (0.24703223, 0.24348513, 0.26158784)
+                
             transforms.extend([
                 T.ToTensor(),
                 # From original jax sam implementation 
-                T.Normalize((0.49139968, 0.48215841, 0.44653091), (0.24703223, 0.24348513, 0.26158784)),
+                T.Normalize(mean, std),
             ])
             if training and config.data.use_cutout:
                 transforms.append(snn.Cutout(length=16, inplace=True))

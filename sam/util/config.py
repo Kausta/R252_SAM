@@ -22,6 +22,8 @@ class ModelConfig:
     # The multiplier to apply to the number of filters in the model (1 is classical resnet, 10 for WRN28-10, etc...).
     wrn_multiplier: int = 10
     wrn_use_additional_skips: bool = False
+    mobile_net_small: bool = True
+    mobile_net_pretrained: bool = True
 
 
 @dataclass
@@ -68,6 +70,7 @@ class PLTrainerConfig:
     cudnn_benchmark: bool = True
     log_freq: int = 10
     monitor: str = "val/accuracy"
+    monitor_decreasing: bool = False
     precision: int = 32
 
 

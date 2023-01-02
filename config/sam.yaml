@@ -1,0 +1,10 @@
+project: r252_sam
+group: sam
+
+trainer:
+  max_epochs: 200
+
+sam:
+  use_sam: true
+  adaptive: false
+  rho: 0.05
