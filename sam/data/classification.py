@@ -36,7 +36,7 @@ class ClassificationDataset(data.Dataset):
                     T.RandomCrop(32, padding=4, padding_mode="reflect")
                 ])
 
-            if config.model.model_cls == "MobileNetV3":
+            if config.model.model_cls == "MobileNetV3" and config.model.mobile_net_pretrained:
                 if config.model.mobile_net_small:
                     weights = MobileNet_V3_Small_Weights.IMAGENET1K_V1
                 else:
