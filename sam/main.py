@@ -37,7 +37,7 @@ def main():
         save_last=True, 
         save_top_k=-1,
         mode="min" if config.trainer.pl.monitor_decreasing else "max",
-        every_n_epochs=1
+        every_n_epochs=config.trainer.pl.checkpoint_every_n_epochs,
     )
 
     trainer = pl.Trainer(

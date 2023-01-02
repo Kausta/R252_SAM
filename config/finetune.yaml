@@ -2,7 +2,7 @@ project: r252_sam
 group: mobilenetv3_finetune
 
 trainer:
-  max_epochs: 50
+  max_epochs: 150
 
 model:
   model_cls: MobileNetV3
@@ -15,4 +15,4 @@ data:
   use_autoaugment: false
 
 sam:
-  use_sam: false
+  use_sam: true
