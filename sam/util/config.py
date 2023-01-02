@@ -103,8 +103,8 @@ class FDConfig:
     trainer: TrainerConfig = TrainerConfig()
     misc: MiscConfig = MiscConfig()
     sam: SAMConfig = SAMConfig()
-    project: str = "r252_sam"
-    group: str = "default"
+    project: str = "sam"
+    group: str = "r252"
 
 
 ConfigType = Union[FDConfig, DictConfig]

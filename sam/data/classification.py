@@ -35,7 +35,6 @@ class ClassificationDataset(data.Dataset):
                     T.RandomHorizontalFlip(),
                     T.RandomCrop(32, padding=4, padding_mode="reflect")
                 ])
-
             if config.model.model_cls == "MobileNetV3":
                 if config.model.mobile_net_small:
                     weights = MobileNet_V3_Small_Weights.IMAGENET1K_V1
@@ -53,7 +52,7 @@ class ClassificationDataset(data.Dataset):
             ])
             if training and config.data.use_cutout:
                 transforms.append(snn.Cutout(length=16, inplace=True))
-            self.dataset = datasets.CIFAR10(self.data_root, train=training, transform=T.Compose(transforms), download=True)
+            self.dataset = datasets.CIFAR10(self.data_root, train=training, transform=T.Compose(transforms), download=False)
         else:
             raise ValueError("Unknown dataset")
     
