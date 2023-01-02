@@ -1,5 +1,6 @@
-project: r252_sam
-group: mobilenetv3_finetune
+entity: r252
+project: sam
+group: mobilenetv3_finetune_sgd
 
 trainer:
   max_epochs: 150
@@ -15,4 +16,4 @@ data:
   use_autoaugment: false
 
 sam:
-  use_sam: true
+  use_sam: false
