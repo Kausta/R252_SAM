@@ -1,5 +1,4 @@
-entity: r252
-project: sam
+project: r252-sam
 group: mobilenetv3_finetune_sgd
 
 trainer:
