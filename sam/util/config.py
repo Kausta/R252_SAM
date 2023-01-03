@@ -75,7 +75,6 @@ class PLTrainerConfig:
     checkpoint_every_n_epochs: int = 10
 
 
-
 @dataclass
 class TrainerConfig:
     trainer: str = "SAMTrainer"
