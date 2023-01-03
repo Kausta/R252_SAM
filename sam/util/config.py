@@ -24,6 +24,8 @@ class ModelConfig:
     wrn_use_additional_skips: bool = False
     mobile_net_small: bool = True
     mobile_net_pretrained: bool = True
+    from_checkpoint: bool = False
+    checkpoint_path: Optional[str] = None
 
 
 @dataclass

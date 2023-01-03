@@ -1,0 +1,21 @@
+project: r252_sam
+group: sam_final
+
+trainer:
+  max_epochs: 150
+
+model:
+  model_cls: MobileNetV3
+  from_checkpoint: true
+  checkpoint_path: checkpoints/model_850.pt
+
+data:
+  use_cutout: false
+  use_autoaugment: false
+  train_batch_size: 128
+  dataset: cifar-10
+
+sam:
+  use_sam: true
+  adaptive: false
+  rho: 0.05

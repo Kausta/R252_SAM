@@ -12,11 +12,15 @@ class MobileNetV3(nn.Module):
     def __init__(self, config: ConfigType):
         super().__init__()
 
-        pretrained = config.model.mobile_net_pretrained
-        if config.model.mobile_net_small:
-            self.model = mobilenet_v3_small(weights=MobileNet_V3_Small_Weights.IMAGENET1K_V1 if pretrained else None)
+        if config.model.from_checkpoint:
+            assert config.model.checkpoint_path is not None
+            self.model = torch.load(config.model.checkpoint_path)
         else:
-            self.model = mobilenet_v3_large(weights=MobileNet_V3_Large_Weights.IMAGENET1K_V2 if pretrained else None)
+            pretrained = config.model.mobile_net_pretrained
+            if config.model.mobile_net_small:
+                self.model = mobilenet_v3_small(weights=MobileNet_V3_Small_Weights.IMAGENET1K_V1 if pretrained else None)
+            else:
+                self.model = mobilenet_v3_large(weights=MobileNet_V3_Large_Weights.IMAGENET1K_V2 if pretrained else None)
         
         num_outputs = config.model.num_outputs
         last_layer = self.model.classifier[-1]
