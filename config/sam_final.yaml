@@ -2,7 +2,7 @@ project: r252_sam
 group: sam_final
 
 trainer:
-  max_epochs: 150
+  max_epochs: 1000
 
 model:
   model_cls: MobileNetV3

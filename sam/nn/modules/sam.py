@@ -14,6 +14,7 @@ class SAM(torch.optim.Optimizer):
         self.base_optimizer = base_optimizer(self.param_groups, **kwargs)
         self.param_groups = self.base_optimizer.param_groups
         self.defaults.update(self.base_optimizer.defaults)
+        print('hello_world')
 
     @torch.no_grad()
     def first_step(self, zero_grad=False):
@@ -62,5 +63,9 @@ class SAM(torch.optim.Optimizer):
         return norm
 
     def load_state_dict(self, state_dict):
+        old_param_groups = self.param_groups
         super().load_state_dict(state_dict)
+        for k, v in self.param_groups[0].items():
+            old_param_groups[0][k] = v
+        self.param_groups[0] = old_param_groups[0]
         self.base_optimizer.param_groups = self.param_groups
