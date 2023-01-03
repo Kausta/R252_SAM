@@ -1,0 +1,18 @@
+project: r252_sam
+group: mobilenetv3_finetune_sgd
+
+trainer:
+  max_epochs: 150
+
+model:
+  model_cls: MobileNetV3
+
+optimizer:
+  lr: 1e-3
+
+data:
+  use_cutout: false
+  use_autoaugment: false
+
+sam:
+  use_sam: false
