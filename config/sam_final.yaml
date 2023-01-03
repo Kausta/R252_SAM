@@ -6,14 +6,16 @@ trainer:
 
 model:
   model_cls: MobileNetV3
+  mobile_net_small: true
+  mobile_net_pretrained: false
   from_checkpoint: true
-  checkpoint_path: checkpoints/model_850.pt
+  checkpoint_path: checkpoints/model_850.ckpt
 
 data:
   use_cutout: false
   use_autoaugment: false
   train_batch_size: 128
-  dataset: cifar-10
+  dataset: cifar10
 
 sam:
   use_sam: true

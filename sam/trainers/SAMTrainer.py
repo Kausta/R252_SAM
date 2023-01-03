@@ -27,6 +27,9 @@ class SAMTrainer(pl.LightningModule):
 
         self.save_hyperparameters(config)
 
+        self.from_checkpoint = config.model.from_checkpoint
+        self.checkpoint_path = config.model.checkpoint_path
+
         ModelCls = getattr(models, config.model.model_cls)
         self.model = ModelCls(self.hparams)
         print(self.model)
@@ -135,6 +138,12 @@ class SAMTrainer(pl.LightningModule):
                              nesterov=opt_params.nesterov)
         else:
             raise ValueError(f"Unknown optimizer {opt_name}")
+
+        """if self.from_checkpoint:
+            assert self.checkpoint_path is not None
+            checkpoint = torch.load(self.checkpoint_path, map_location="cpu")
+            print(checkpoint.keys())
+            opt.load_state_dict(checkpoint["optimizer_states"])"""
 
         if opt_params.scheduler is None:
             return opt
