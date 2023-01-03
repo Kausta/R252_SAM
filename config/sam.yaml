@@ -4,6 +4,15 @@ group: sam
 trainer:
   max_epochs: 200
 
+model:
+  model_cls: MobileNetV3
+  mobile_net_pretrained: false
+
+data:
+  use_cutout: false
+  use_autoaugment: false
+  train_batch_size: 128
+
 sam:
   use_sam: true
   adaptive: false
