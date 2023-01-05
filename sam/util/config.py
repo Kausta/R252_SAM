@@ -72,6 +72,7 @@ class PLTrainerConfig:
     monitor: str = "val/accuracy"
     monitor_decreasing: bool = False
     precision: int = 32
+    checkpoint_every_n_epochs: int = 10
 
 
 @dataclass
