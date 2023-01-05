@@ -21,3 +21,6 @@ sam:
   use_sam: true
   adaptive: false
   rho: 0.05
+
+optimizer:
+  lr:

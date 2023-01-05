@@ -1,7 +1,4 @@
-import torch
 import torch.nn as nn
-import torch.nn.functional as F
-import collections
 
 from torchvision.models import mobilenet_v3_small, mobilenet_v3_large, MobileNet_V3_Small_Weights, MobileNet_V3_Large_Weights
 
@@ -18,7 +15,6 @@ class MobileNetV3(nn.Module):
             self.model = mobilenet_v3_small(weights=MobileNet_V3_Small_Weights.IMAGENET1K_V1 if pretrained else None)
         else:
             self.model = mobilenet_v3_large(weights=MobileNet_V3_Large_Weights.IMAGENET1K_V2 if pretrained else None)
-
 
         num_outputs = config.model.num_outputs
         last_layer = self.model.classifier[-1]

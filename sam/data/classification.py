@@ -53,6 +53,7 @@ class ClassificationDataset(data.Dataset):
             if training and config.data.use_cutout:
                 transforms.append(snn.Cutout(length=16, inplace=True))
             self.dataset = datasets.CIFAR10(self.data_root, train=training, transform=T.Compose(transforms), download=False)
+            print("hello")
         else:
             raise ValueError("Unknown dataset")
     

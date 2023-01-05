@@ -59,13 +59,6 @@ def main():
     Model = getattr(trainers, config.trainer.trainer)
     model = Model(config)
 
-    """if config.model.from_checkpoint:
-        assert config.model.checkpoint_path is not None
-        checkpoint = torch.load(config.model.checkpoint_path, map_location="cpu")
-        state_dict = checkpoint["state_dict"]
-        changed_state_dict = collections.OrderedDict((key[12:], value) for key, value in state_dict.items())
-        model.load_state_dict(state_dict)"""
-
     if config.model.from_checkpoint:
         trainer.fit(model, datamodule, ckpt_path=config.model.checkpoint_path)
     else:

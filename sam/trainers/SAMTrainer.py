@@ -139,12 +139,6 @@ class SAMTrainer(pl.LightningModule):
         else:
             raise ValueError(f"Unknown optimizer {opt_name}")
 
-        """if self.from_checkpoint:
-            assert self.checkpoint_path is not None
-            checkpoint = torch.load(self.checkpoint_path, map_location="cpu")
-            print(checkpoint.keys())
-            opt.load_state_dict(checkpoint["optimizer_states"])"""
-
         if opt_params.scheduler is None:
             return opt
 
