@@ -25,8 +25,6 @@ class DataModule(pl.LightningDataModule):
         return DataLoader(dataset, batch_size, shuffle=shuffle, num_workers=num_workers, pin_memory=True)
 
     def train_dataloader(self):
-        self.train_set.dataset.data = self.train_set.dataset.data[:3000]
-        self.train_set.dataset.targets = self.train_set.dataset.targets[:3000]
         return self.get_dataloader(
             self.train_set, 
             self.config.data.train_batch_size,
