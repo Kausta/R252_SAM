@@ -7,13 +7,13 @@ trainer:
 model:
   model_cls: MobileNetV3
   mobile_net_pretrained: false
-  num_outputs: 2
+  num_outputs: 10
 
 data:
   use_cutout: false
   use_autoaugment: false
   train_batch_size: 128
-  classes: [3, 5]
+  classes: [3, 4, 5]
   samples_per_class: 750
 
 sam:

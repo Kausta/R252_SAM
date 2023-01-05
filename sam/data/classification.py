@@ -64,7 +64,7 @@ class ClassificationDataset(data.Dataset):
                 for i in range(len(indicess)):
                     random.shuffle(indicess[i])
                     indicess[i] = indicess[i][:config.data.samples_per_class]
-                indices = list(np.array(indicess).reshape((1, 1500))[0])
+                indices = list(np.array(indicess).reshape((1, 2250))[0])
                 random.shuffle(indices)
                 self.dataset.data = data[indices]
                 self.dataset.targets = list(np.array(targets)[indices])
