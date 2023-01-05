@@ -2,4 +2,4 @@ from . import wrn
 from . import mobilenet
 
 from .wrn import WideResnet
-from .mobilenet import MobileNetV3
+from .mobilenet import MobileNetV3, MobileNetV2

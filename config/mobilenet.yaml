@@ -1,0 +1,19 @@
+project: r252_sam
+group: mobilenetv3_large_sam
+
+trainer:
+  max_epochs: 200
+
+model:
+  model_cls: MobileNetV3
+  mobile_net_small: false
+  mobile_net_pretrained: false
+
+data:
+  use_cutout: true
+  use_autoaugment: true
+
+sam:
+  use_sam: true
+  adaptive: false
+  rho: 0.05
