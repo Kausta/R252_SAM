@@ -2,16 +2,19 @@ project: r252_sam
 group: sgd
 
 trainer:
-  max_epochs: 200
+  max_epochs: 1000
 
 model:
   model_cls: MobileNetV3
   mobile_net_pretrained: false
+  num_outputs: 2
 
 data:
   use_cutout: false
   use_autoaugment: false
   train_batch_size: 128
+  classes: [3, 5]
+  samples_per_class: 750
 
 sam:
   use_sam: false

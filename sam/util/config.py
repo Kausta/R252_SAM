@@ -58,7 +58,8 @@ class DataConfig:
     use_cutout: bool = True
     # Autoaugment for CIFAR10
     use_autoaugment: bool = True
-
+    classes: List[int] = field(default_factory=lambda: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9])
+    samples_per_class: int = 5000
 
 @dataclass
 class LossConfig:

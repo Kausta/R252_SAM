@@ -56,20 +56,21 @@ class ClassificationDataset(data.Dataset):
                 transforms.append(snn.Cutout(length=16, inplace=True))
             self.dataset = datasets.CIFAR10(self.data_root, train=training, transform=T.Compose(transforms), download=False)
 
-            data = self.dataset.data
-            targets = self.dataset.targets
-            classes = [3, 4, 5]  # cat, deer, dog
-            indicess = [[i for i, target in enumerate(targets) if target == c] for c in classes]
-            for i in range(len(indicess)):
-                random.shuffle(indicess[i])
-                indicess[i] = indicess[i][:750]
-            indices = list(np.array(indicess).reshape((1, 2250))[0])
-            random.shuffle(indices)
-            self.dataset.data = data[indices]
-            self.dataset.targets = list(np.array(targets)[indices])
-            self.dataset.classes = classes
-            self.dataset.class_to_idx = {k: v for k, v in self.dataset.class_to_idx.items() if v in classes}
-            print('Hello')
+            if len(config.data.classes) < 10 or config.data.samples_per_class < 5000:
+                data = self.dataset.data
+                targets = self.dataset.targets
+                classes = config.data.classes  # cat, deer, dog
+                indicess = [[i for i, target in enumerate(targets) if target == c] for c in classes]
+                for i in range(len(indicess)):
+                    random.shuffle(indicess[i])
+                    indicess[i] = indicess[i][:config.data.samples_per_class]
+                indices = list(np.array(indicess).reshape((1, -1))[0])
+                random.shuffle(indices)
+                self.dataset.data = data[indices]
+                self.dataset.targets = list(np.array(targets)[indices])
+                self.dataset.classes = classes
+                self.dataset.class_to_idx = {k: v for k, v in self.dataset.class_to_idx.items() if v in classes}
+                print('Hello')
         else:
             raise ValueError("Unknown dataset")
     

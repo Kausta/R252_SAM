@@ -54,7 +54,7 @@ def main():
         ],
         precision=config.trainer.pl.precision,
         num_sanity_val_steps=0,
-        val_check_interval=5
+        check_val_every_n_epoch=5
     )
 
     Model = getattr(trainers, config.trainer.trainer)
