@@ -54,7 +54,7 @@ class ClassificationDataset(data.Dataset):
             ])
             if training and config.data.use_cutout:
                 transforms.append(snn.Cutout(length=16, inplace=True))
-            self.dataset = datasets.CIFAR10(self.data_root, train=training, transform=T.Compose(transforms), download=False)
+            self.dataset = datasets.CIFAR10(self.data_root, train=training, transform=T.Compose(transforms), download=True)
 
             if len(config.data.classes) < 10 or config.data.samples_per_class < 5000:
                 data = self.dataset.data
