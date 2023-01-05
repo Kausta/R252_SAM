@@ -59,7 +59,7 @@ class ClassificationDataset(data.Dataset):
             if len(config.data.classes) < 10 or config.data.samples_per_class < 5000:
                 data = self.dataset.data
                 targets = self.dataset.targets
-                classes = config.data.classes  # cat, deer, dog
+                classes = config.data.classes
                 indicess = [[i for i, target in enumerate(targets) if target == c] for c in classes]
                 for i in range(len(indicess)):
                     random.shuffle(indicess[i])
