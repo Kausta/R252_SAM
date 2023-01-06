@@ -8,7 +8,7 @@ model:
   model_cls: MobileNetV2
 
 data:
-  train_batch_size: 50000
+  train_batch_size: 50
   use_cutout: true
   use_autoaugment: true
 
