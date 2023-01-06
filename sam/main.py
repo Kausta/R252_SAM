@@ -30,7 +30,7 @@ def main():
 
     datamodule = data.DataModule(config, getattr(data, config.data.dataset_cls))
 
-    wandb_logger = WandbLogger(project=config.project, group=config.group, entity="mvp_diffusion", log_model=True)
+    wandb_logger = WandbLogger(project=config.project, group=config.group, entity="mvp_diffusion", log_model='all')
     checkpoint_callback = ModelCheckpoint(
         os.path.join(config.trainer.out_dir, wandb_logger.experiment.name), 
         monitor=config.trainer.pl.monitor,
