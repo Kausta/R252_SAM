@@ -4,6 +4,18 @@ slurm-*.out
 # Created by https://www.toptal.com/developers/gitignore/api/windows,macos,linux,python,jupyternotebooks,visualstudiocode,pycharm
 # Edit at https://www.toptal.com/developers/gitignore?templates=windows,macos,linux,python,jupyternotebooks,visualstudiocode,pycharm
 
+# From loss landscape
+*.pyc
+*.DS_Store
+*.t7
+*.pth
+*.pdf
+loss-landscape/cifar10/plots/*.png
+loss-landscape/cifar10/plots/*.h5
+loss-landscape/cifar10/data/
+loss-landscape/cifar10/trained_nets/
+
+
 ### JupyterNotebooks ###
 # gitignore template for Jupyter Notebooks
 # website: http://jupyter.org/
