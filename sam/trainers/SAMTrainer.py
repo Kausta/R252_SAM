@@ -99,7 +99,7 @@ class SAMTrainer(pl.LightningModule):
             lr_sched.step()
 
         # save checkpoint with pytorch-lightning through WandbLogger callback
-        if self.trainer.current_epoch % self.hparams.train.save_interval == 0:
+        if self.trainer.current_epoch % 1 == 0:
             self.trainer.save_checkpoint(f"checkpoint-{self.trainer.current_epoch}.ckpt")
 
     def validation_step(self, batch, batch_idx):
