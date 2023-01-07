@@ -9,7 +9,7 @@ slurm-*.out
 *.DS_Store
 *.t7
 *.pth
-*.pdf
+# *.pdf
 loss-landscape/cifar10/plots/*.png
 loss-landscape/cifar10/plots/*.h5
 loss-landscape/cifar10/data/
