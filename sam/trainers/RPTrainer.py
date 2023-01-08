@@ -15,10 +15,10 @@ from sam.nn.optim import get_cosine_schedule_with_warmup
 
 from torchmetrics import Accuracy
 
-__all__ = ["SAMTrainer"]
+__all__ = ["RPTrainer"]
 
 
-class SAMTrainer(pl.LightningModule):
+class RPTrainer(pl.LightningModule):
     hparams: ConfigType
 
     def __init__(self, config: ConfigType):
@@ -65,26 +65,14 @@ class SAMTrainer(pl.LightningModule):
         lr_sched = self.lr_schedulers()
 
         opt.zero_grad()
+        opt.optimizer.pre_forward()
         out = self.loss(x, y, "train")
         self.manual_backward(out["loss"])
-        if self.hparams.sam.use_sam:
-            def closure():
-                SF.disable_running_stats(self.model)
-                second_step_loss = self.loss_ce(self.forward(x), y)
-                self.manual_backward(second_step_loss)
-                self.clip_gradients(
-                    optimizer=opt, 
-                    gradient_clip_val=self.hparams.optimizer.clip_grad_norm,
-                    gradient_clip_algorithm="norm")
-                return second_step_loss
-            opt.step(closure=closure)
-            SF.enable_running_stats(self.model)
-        else:
-            self.clip_gradients(
-                optimizer=opt, 
-                gradient_clip_val=self.hparams.optimizer.clip_grad_norm,
-                gradient_clip_algorithm="norm")
-            opt.step()
+        self.clip_gradients(
+            optimizer=opt, 
+            gradient_clip_val=self.hparams.optimizer.clip_grad_norm,
+            gradient_clip_algorithm="norm")
+        opt.step()
 
         if lr_sched is not None and self.hparams.optimizer.sched_interval == "step":
             lr_sched.step()
@@ -115,25 +103,17 @@ class SAMTrainer(pl.LightningModule):
         opt_params = self.hparams.optimizer
         opt_name = opt_params.optimizer
 
-        if self.hparams.sam.use_sam:
-            if opt_name == "sgd":
-                base_opt = torch.optim.SGD
-                kwargs = {
-                    "lr": opt_params.lr,
-                    "momentum": opt_params.momentum,
-                    "weight_decay": opt_params.wd,
-                    "nesterov": opt_params.nesterov
-                }
-            else:
-                raise ValueError(f"Unknown optimizer {opt_name}")
-            opt = snn.SAM(self.model.parameters(), base_opt, rho=self.hparams.sam.rho, adaptive=self.hparams.sam.adaptive, **kwargs)
-        elif opt_name == "sgd":
-            opt = optim.SGD(self.model.parameters(), lr=opt_params.lr,
-                             momentum=opt_params.momentum,
-                             weight_decay=opt_params.wd,
-                             nesterov=opt_params.nesterov)
+        if opt_name == "sgd":
+            base_opt = torch.optim.SGD
+            kwargs = {
+                "lr": opt_params.lr,
+                "momentum": opt_params.momentum,
+                "weight_decay": opt_params.wd,
+                "nesterov": opt_params.nesterov
+            }
         else:
             raise ValueError(f"Unknown optimizer {opt_name}")
+        opt = snn.RPOpt(self.model.parameters(), base_opt, rho=self.hparams.sam.rho, **kwargs)
 
         if opt_params.scheduler is None:
             return opt

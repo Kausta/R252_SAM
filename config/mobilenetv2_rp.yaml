@@ -1,7 +1,8 @@
 project: r252_sam
-group: mobilenetv2_sgd
+group: mobilenetv2_rp
 
 trainer:
+  trainer: RPTrainer
   max_epochs: 400
 
 model:
@@ -13,6 +14,4 @@ data:
   use_autoaugment: true
 
 sam:
-  use_sam: false
-  adaptive: false
-  rho: 0.1
+  rho: 1.0
