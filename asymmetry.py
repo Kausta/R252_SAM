@@ -20,30 +20,45 @@ def strip_prefix(string, prefix):
 def get_loss(batches, model, loss, label):
     loss_total = 0
 
-    with torch.no_grad():
-        for x, y in tqdm(batches, desc="Calculating loss %s" % label, leave=False):
-            if USE_CUDA:
-                x, y = x.cuda(), y.cuda()
+    for x, y in tqdm(batches, desc="Calculating loss %s" % label, leave=False):
+        if USE_CUDA:
+            x, y = x.cuda(), y.cuda()
 
-            output = model(x)
-            loss_total += loss(output, y)
+        output = model(x)
+        loss_total += loss(output, y)
 
     return loss_total.cpu().numpy() / len(batches)
 
 
+def get_random_unit_permutation(model):
+    param_shapes = [param.shape for param in model.parameters()]
+    param_sizes = [np.prod(shape) for shape in param_shapes]
+    model_size = sum(size for size in param_sizes)
+    vector = torch.rand(model_size)
+
+    if USE_CUDA:
+        vector = vector.cuda()
+
+    norm = torch.linalg.norm(vector)
+    vector = vector / norm
+
+    permutation = []
+    pointer = 0
+    for size, shape in zip(param_sizes, param_shapes):
+        param_permutation = vector[pointer : (pointer + size)].view(shape)
+        permutation.append(param_permutation)
+        pointer += size
+
+    return permutation
+
+
 def permute_models(model, scales):
+    vector = get_random_unit_permutation(model)
     models = [copy.deepcopy(model) for _ in scales]
-    models_parameters = [model.parameters() for model in models]
 
-    with torch.no_grad():
-        for parameters in zip(*models_parameters):
-            random = torch.randn(parameters[0].shape)
-
-            if USE_CUDA:
-                random = random.cuda()
-
-            for param, scale in zip(parameters, scales):
-                param.add_(scale * random)
+    for model, scale in zip(models, scales):
+        for param, element in zip(model.parameters(), vector):
+            param.add_(scale * element)
 
     return models
 
@@ -90,6 +105,7 @@ def get_random_direction(model, loss, batches, intervals):
 
     return losses
 
+
 def get_asymmetry(model, loss, batches, iterations, scale):
     total = 0
     zero_loss = get_loss(batches, model, loss, "initial")
@@ -106,7 +122,6 @@ def get_asymmetry(model, loss, batches, iterations, scale):
         total += min(pos_delta, neg_delta) / max(pos_delta, neg_delta)
 
     return total / iterations
-        
 
 
 if __name__ == "__main__":
@@ -121,15 +136,20 @@ if __name__ == "__main__":
     if args.device == "cuda":
         USE_CUDA = True
 
-    model, loss, batches = load_checkpoint(args.input_checkpoint_path)
+    with torch.no_grad():
+        model, loss, batches = load_checkpoint(args.input_checkpoint_path)
 
-    if args.plot_random_direction is not None:
-        args.plot_random_direction = np.concatenate(args.plot_random_direction)
-        losses = get_random_direction(model, loss, batches, args.plot_random_direction)
-        print("x:", args.plot_random_direction)
-        print("loss:", losses)
+        if args.plot_random_direction is not None:
+            args.plot_random_direction = np.concatenate(args.plot_random_direction)
+            losses = get_random_direction(
+                model, loss, batches, args.plot_random_direction
+            )
+            print("x:", args.plot_random_direction)
+            print("loss:", losses)
 
-    if args.get_asymmetry is not None:
-        args.get_asymmetry = np.concatenate(args.get_asymmetry)
-        asymmetry = get_asymmetry(model, loss, batches, args.get_asymmetry[0], args.get_asymmetry[1])
-        print("Asymmetry factor:", asymmetry)
+        if args.get_asymmetry is not None:
+            args.get_asymmetry = np.concatenate(args.get_asymmetry)
+            asymmetry = get_asymmetry(
+                model, loss, batches, args.get_asymmetry[0], args.get_asymmetry[1]
+            )
+            print("Asymmetry factor:", asymmetry)
