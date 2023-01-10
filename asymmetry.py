@@ -30,7 +30,7 @@ def get_loss(batches, model, loss, label):
     return loss_total.cpu().numpy() / len(batches)
 
 
-def get_random_unit_permutation(model):
+def get_random_unit_perturbation(model):
     param_shapes = [param.shape for param in model.parameters()]
     param_sizes = [np.prod(shape) for shape in param_shapes]
     model_size = sum(size for size in param_sizes)
@@ -42,18 +42,18 @@ def get_random_unit_permutation(model):
     norm = torch.linalg.norm(vector)
     vector = vector / norm
 
-    permutation = []
+    perturbation = []
     pointer = 0
     for size, shape in zip(param_sizes, param_shapes):
         param_permutation = vector[pointer : (pointer + size)].view(shape)
-        permutation.append(param_permutation)
+        perturbation.append(param_permutation)
         pointer += size
 
-    return permutation
+    return perturbation
 
 
-def permute_models(model, scales):
-    vector = get_random_unit_permutation(model)
+def perturbate_models(model, scales):
+    vector = get_random_unit_perturbation(model)
     models = [copy.deepcopy(model) for _ in scales]
 
     for model, scale in zip(models, scales):
@@ -97,7 +97,7 @@ def load_checkpoint(file_path):
 
 
 def get_random_direction(model, loss, batches, intervals):
-    models = permute_models(model, intervals)
+    models = perturbate_models(model, intervals)
     losses = [
         get_loss(batches, model, loss, i)
         for i, model in tqdm(
@@ -113,7 +113,7 @@ def get_asymmetry(model, loss, batches, iterations, scale):
     zero_loss = get_loss(batches, model, loss, "initial")
 
     for i in tqdm(range(iterations), desc="Calculating asymmetry"):
-        pos_model, neg_model = permute_models(model, [-1 * scale, 1 * scale])
+        pos_model, neg_model = perturbate_models(model, [-1 * scale, 1 * scale])
 
         pos_loss = get_loss(batches, pos_model, loss, "pos_%d" % i)
         neg_loss = get_loss(batches, neg_model, loss, "neg_%d" % i)
