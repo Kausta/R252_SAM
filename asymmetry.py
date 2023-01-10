@@ -17,18 +17,18 @@ def strip_prefix(string, prefix):
         return string
 
 
-def get_loss(batches, model, loss):
+def get_loss(batches, model, loss, label):
     loss_total = 0
 
     with torch.no_grad():
-        for x, y in tqdm(batches, desc="Calculating loss", leave=False):
+        for x, y in tqdm(batches, desc="Calculating loss %s" % label, leave=False):
             if USE_CUDA:
                 x, y = x.cuda(), y.cuda()
 
             output = model(x)
             loss_total += loss(output, y)
 
-    return loss_total / len(batches)
+    return loss_total.cpu().numpy() / len(batches)
 
 
 def permute_models(model, scales):
@@ -75,27 +75,30 @@ def load_checkpoint(file_path):
     data_loaders.setup()
     test_batches = data_loaders.test_dataloader()
 
+    if USE_CUDA:
+        model = model.cuda()
+
     return model, loss, test_batches
 
 
 def get_random_direction(model, loss, batches, intervals):
     models = permute_models(model, intervals)
     losses = [
-        get_loss(batches, model, loss)
-        for model in tqdm(models, desc="Getting model losses")
+        get_loss(batches, model, loss, i)
+        for i, model in tqdm(enumerate(models), desc="Getting model losses")
     ]
 
     return losses
 
 def get_asymmetry(model, loss, batches, iterations, scale):
     total = 0
-    zero_loss = get_loss(batches, model, loss)
+    zero_loss = get_loss(batches, model, loss, "initial")
 
-    for _ in tqdm(range(iterations), desc="Calculating asymmetry"):
+    for i in tqdm(range(iterations), desc="Calculating asymmetry"):
         pos_model, neg_model = permute_models(model, [-1 * scale, 1 * scale])
 
-        pos_loss = get_loss(batches, pos_model, loss)
-        neg_loss = get_loss(batches, neg_model, loss)
+        pos_loss = get_loss(batches, pos_model, loss, "pos_%d" % i)
+        neg_loss = get_loss(batches, neg_model, loss, "neg_%d" % i)
 
         pos_delta = pos_loss - zero_loss
         neg_delta = neg_loss - zero_loss
