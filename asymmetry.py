@@ -130,7 +130,7 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="")
     parser.add_argument("--input-checkpoint-path", required=True, type=str)
     parser.add_argument("--device", default="cpu", choices=["cpu", "cuda"])
-    parser.add_argument("--plot-random-direction", nargs="+", action="append", type=int)
+    parser.add_argument("--plot-random-direction", nargs="+", action="append", type=float)
     parser.add_argument("--get-asymmetry", nargs=2, action="append", type=int)
 
     args = parser.parse_args()
