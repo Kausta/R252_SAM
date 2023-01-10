@@ -8,6 +8,7 @@ from tqdm import tqdm
 from omegaconf import OmegaConf
 
 USE_CUDA = False
+USE_TEST_DATA = False
 
 
 def strip_prefix(string, prefix):
@@ -88,12 +89,16 @@ def load_checkpoint(file_path):
         config, getattr(sam.data, config.data.dataset_cls)
     )
     data_loaders.setup()
-    test_batches = data_loaders.test_dataloader()
+    batches = (
+        data_loaders.test_dataloader()
+        if USE_TEST_DATA
+        else data_loaders.train_dataloader()
+    )
 
     if USE_CUDA:
         model = model.cuda()
 
-    return model, loss, test_batches
+    return model, loss, batches
 
 
 def get_random_direction(model, loss, batches, intervals):
@@ -130,7 +135,9 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="")
     parser.add_argument("--input-checkpoint-path", required=True, type=str)
     parser.add_argument("--device", default="cpu", choices=["cpu", "cuda"])
-    parser.add_argument("--plot-random-direction", nargs="+", action="append", type=float)
+    parser.add_argument(
+        "--plot-random-direction", nargs="+", action="append", type=float
+    )
     parser.add_argument("--get-asymmetry", nargs=2, action="append", type=int)
 
     args = parser.parse_args()
