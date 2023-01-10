@@ -100,7 +100,9 @@ def get_random_direction(model, loss, batches, intervals):
     models = permute_models(model, intervals)
     losses = [
         get_loss(batches, model, loss, i)
-        for i, model in tqdm(enumerate(models), desc="Getting model losses")
+        for i, model in tqdm(
+            enumerate(models), total=len(models), desc="Getting model losses"
+        )
     ]
 
     return losses
