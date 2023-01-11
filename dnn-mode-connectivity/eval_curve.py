@@ -22,9 +22,9 @@ parser.add_argument('--dataset', type=str, default='CIFAR10', metavar='DATASET',
                     help='dataset name (default: CIFAR10)')
 parser.add_argument('--use_test', action='store_true',
                     help='switches between validation and test set (default: validation)')
-parser.add_argument('--transform', type=str, default='VGG', metavar='TRANSFORM',
-                    help='transform name (default: VGG)')
-parser.add_argument('--data_path', type=str, default=None, metavar='PATH',
+parser.add_argument('--transform', type=str, default='ResNet', metavar='TRANSFORM',
+                    help='transform name (default: ResNet)')
+parser.add_argument('--data_path', type=str, default='tmp/dataset/', metavar='PATH',
                     help='path to datasets location (default: None)')
 parser.add_argument('--batch_size', type=int, default=128, metavar='N',
                     help='input batch size (default: 128)')
