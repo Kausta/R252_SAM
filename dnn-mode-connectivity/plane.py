@@ -141,7 +141,7 @@ te_err = np.zeros((G, G))
 
 grid = np.zeros((G, G, 2))
 
-base_model = architecture.base(num_classes, **architecture.kwargs)
+base_model = models.MobileNetV2(config)
 base_model.cuda()
 
 columns = ['X', 'Y', 'Train loss', 'Train nll', 'Train error (%)', 'Test nll', 'Test error (%)']
