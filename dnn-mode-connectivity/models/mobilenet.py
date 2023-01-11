@@ -85,14 +85,14 @@ class BlockCurve(nn.Module):
             )
 
     def forward(self, x, coeffs_t):
-        out = F.relu(self.bn1(self.conv1(x), coeffs_t))
-        out = F.relu(self.bn2(self.conv2(out), coeffs_t))
-        out = self.bn3(self.conv3(out), coeffs_t)
+        out = F.relu(self.bn1(self.conv1(x, coeffs_t), coeffs_t))
+        out = F.relu(self.bn2(self.conv2(out, coeffs_t), coeffs_t))
+        out = self.bn3(self.conv3(out, coeffs_t), coeffs_t)
 
         short = x
         for layer in self.shortcut:
             short = layer(short, coeffs_t)
-            
+
         out = out + short if self.stride==1 else out
         return out
 
