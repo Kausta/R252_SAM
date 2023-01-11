@@ -74,7 +74,7 @@ with open(os.path.join(args.dir, 'command.sh'), 'w') as f:
 
 # torch.backends.cudnn.benchmark = True
 torch.manual_seed(args.seed)
-# torch.cuda.manual_seed(args.seed)
+torch.cuda.manual_seed(args.seed)
 
 loaders, num_classes = data.loaders(
     args.dataset,
@@ -146,7 +146,7 @@ model.import_base_parameters(end_net, 1)
 #         if args.init_linear:
 #             print('Linear initialization.')
 #             model.init_linear()
-# model.cuda()
+model.cuda()
 
 
 def learning_rate_schedule(base_lr, epoch, total_epochs):
