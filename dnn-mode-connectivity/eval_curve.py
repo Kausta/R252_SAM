@@ -4,6 +4,7 @@ import os
 import tabulate
 import torch
 import torch.nn.functional as F
+import pickle
 
 import data
 import models
@@ -60,14 +61,18 @@ loaders, num_classes = data.loaders(
     shuffle_train=False
 )
 
+with open('state_dict.pickle', 'rb') as handle:
+    dict = pickle.load(handle)
+config = dict['hparams']
+
 architecture = getattr(models, args.model)
 curve = getattr(curves, args.curve)
 model = curves.CurveNet(
     num_classes,
     curve,
-    architecture.curve,
+    models.MobileNetV2Curve,
     args.num_bends,
-    architecture_kwargs=architecture.kwargs,
+    config=config,
 )
 model.cuda()
 checkpoint = torch.load(args.ckpt)
