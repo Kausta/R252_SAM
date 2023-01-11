@@ -61,7 +61,7 @@ loaders, num_classes = data.loaders(
     shuffle_train=False
 )
 
-with open('state_dict.pickle', 'rb') as handle:
+with open('dnn-mode-connectivity/state_dict.pickle', 'rb') as handle:
     dict = pickle.load(handle)
 config = dict['hparams']
 
