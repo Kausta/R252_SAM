@@ -162,9 +162,9 @@ class MobileNetV2Curve(nn.Module):
         return nn.ModuleList(layers)
 
     def forward(self, x, coeffs_t):
-        out = F.relu(self.bn1(self.conv1(x)))
+        out = F.relu(self.bn1(self.conv1(x, coeffs_t), coeffs_t))
         out = self.layers(out, coeffs_t)
-        out = F.relu(self.bn2(self.conv2(out)))
+        out = F.relu(self.bn2(self.conv2(out, coeffs_t), coeffs_t))
         # NOTE: change pooling kernel_size 7 -> 4 for CIFAR10
         out = F.avg_pool2d(out, 4)
         out = out.view(out.size(0), -1)
