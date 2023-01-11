@@ -77,7 +77,7 @@ class BlockCurve(nn.Module):
         self.conv3 = curves.Conv2d(planes, out_planes, kernel_size=1, stride=1, padding=0, bias=False, fix_points=fix_points)
         self.bn3 = curves.BatchNorm2d(out_planes, fix_points=fix_points)
 
-        self.shortcut = nn.Sequential()
+        self.shortcut = nn.ModuleList([])
         if stride == 1 and in_planes != out_planes:
             self.shortcut = nn.ModuleList([
                 curves.Conv2d(in_planes, out_planes, kernel_size=1, stride=1, padding=0, bias=False, fix_points=fix_points),
@@ -88,7 +88,12 @@ class BlockCurve(nn.Module):
         out = F.relu(self.bn1(self.conv1(x), coeffs_t))
         out = F.relu(self.bn2(self.conv2(out), coeffs_t))
         out = self.bn3(self.conv3(out), coeffs_t)
-        out = out + self.shortcut(x, coeffs_t) if self.stride==1 else out
+
+        short = x
+        for layer in self.shortcut:
+            short = layer(short, coeffs_t)
+            
+        out = out + short if self.stride==1 else out
         return out
 
 
@@ -163,7 +168,10 @@ class MobileNetV2Curve(nn.Module):
 
     def forward(self, x, coeffs_t):
         out = F.relu(self.bn1(self.conv1(x, coeffs_t), coeffs_t))
-        out = self.layers(out, coeffs_t)
+        
+        for layer in self.layers:
+            out = layer(out, coeffs_t)
+
         out = F.relu(self.bn2(self.conv2(out, coeffs_t), coeffs_t))
         # NOTE: change pooling kernel_size 7 -> 4 for CIFAR10
         out = F.avg_pool2d(out, 4)
