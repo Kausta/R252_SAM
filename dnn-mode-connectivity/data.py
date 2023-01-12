@@ -25,8 +25,9 @@ class Transforms:
         class ResNet:
 
             train = transforms.Compose([
-                transforms.RandomCrop(32, padding=4),
+                transforms.AutoAugment(transforms.AutoAugmentPolicy.CIFAR10),
                 transforms.RandomHorizontalFlip(),
+                transforms.RandomCrop(32, padding=4, padding_mode='reflect'),
                 transforms.ToTensor(),
                 # transforms.Normalize(mean=[0.4914, 0.4822, 0.4465], std=[0.2023, 0.1994, 0.2010]),
                 transforms.Normalize(mean=[0.49139968, 0.48215841, 0.44653091],
