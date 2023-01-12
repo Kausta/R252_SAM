@@ -153,12 +153,13 @@ if __name__ == "__main__":
             losses = get_random_direction(
                 model, loss, batches, args.plot_random_direction
             )
-            print("x:", args.plot_random_direction)
-            print("loss:", losses)
+            print("dist", "loss") 
+            for dist, loss in zip(args.plot_random_direction, losses):
+                print(dist, loss)
 
         if args.get_asymmetry is not None:
             args.get_asymmetry = np.concatenate(args.get_asymmetry)
             asymmetry = get_asymmetry(
                 model, loss, batches, args.get_asymmetry[0], args.get_asymmetry[1]
             )
-            print("Asymmetry factor:", asymmetry)
+            print(asymmetry)
