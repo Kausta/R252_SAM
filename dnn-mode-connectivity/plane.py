@@ -11,7 +11,7 @@ import curves
 import utils
 
 parser = argparse.ArgumentParser(description='Computes values for plane visualization')
-parser.add_argument('--dir', type=str, default='/tmp/plane', metavar='DIR',
+parser.add_argument('--dir', type=str, default='/tmp/curve', metavar='DIR',
                     help='training directory (default: /tmp/plane)')
 
 parser.add_argument('--grid_points', type=int, default=21, metavar='N',
@@ -32,7 +32,7 @@ parser.add_argument('--dataset', type=str, default='CIFAR10', metavar='DATASET',
                     help='dataset name (default: CIFAR10)')
 parser.add_argument('--use_test', action='store_true',
                     help='switches between validation and test set (default: validation)')
-parser.add_argument('--transform', type=str, default='VGG', metavar='TRANSFORM',
+parser.add_argument('--transform', type=str, default='ResNet', metavar='TRANSFORM',
                     help='transform name (default: VGG)')
 parser.add_argument('--data_path', type=str, default='tmp/dataset/', metavar='PATH',
                     help='path to datasets location (default: None)')
