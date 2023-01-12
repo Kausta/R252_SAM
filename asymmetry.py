@@ -136,7 +136,7 @@ if __name__ == "__main__":
     parser.add_argument("--input-checkpoint-path", required=True, type=str)
     parser.add_argument("--device", default="cpu", choices=["cpu", "cuda"])
     parser.add_argument(
-        "--plot-random-direction", nargs="+", action="append", type=float
+        "--get-random-direction", nargs="+", action="append", type=float
     )
     parser.add_argument("--get-asymmetry", nargs=2, action="append", type=int)
 
@@ -148,13 +148,13 @@ if __name__ == "__main__":
     with torch.no_grad():
         model, loss, batches = load_checkpoint(args.input_checkpoint_path)
 
-        if args.plot_random_direction is not None:
-            args.plot_random_direction = np.concatenate(args.plot_random_direction)
+        if args.get_random_direction is not None:
+            args.get_random_direction = np.concatenate(args.get_random_direction)
             losses = get_random_direction(
-                model, loss, batches, args.plot_random_direction
+                model, loss, batches, args.get_random_direction
             )
             print("dist", "loss") 
-            for dist, loss in zip(args.plot_random_direction, losses):
+            for dist, loss in zip(args.get_random_direction, losses):
                 print(dist, loss)
 
         if args.get_asymmetry is not None:
