@@ -142,6 +142,9 @@ if __name__ == "__main__":
 
     args = parser.parse_args()
 
+    torch.manual_seed(6)
+    torch.cuda.manual_seed_all(9)
+
     if args.device == "cuda":
         USE_CUDA = True
 
