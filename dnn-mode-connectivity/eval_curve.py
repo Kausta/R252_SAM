@@ -32,7 +32,7 @@ parser.add_argument('--batch_size', type=int, default=128, metavar='N',
 parser.add_argument('--num_workers', type=int, default=4, metavar='N',
                     help='number of workers (default: 4)')
 
-parser.add_argument('--model', type=str, default=None, metavar='MODEL',
+parser.add_argument('--model', type=str, default='ResNet', metavar='MODEL',
                     help='model name (default: None)')
 parser.add_argument('--curve', type=str, default=None, metavar='CURVE',
                     help='curve type to use (default: None)')
@@ -65,7 +65,7 @@ with open('dnn-mode-connectivity/state_dict.pickle', 'rb') as handle:
     dict = pickle.load(handle)
 config = dict['hparams']
 
-architecture = getattr(models, args.model)
+# architecture = getattr(models, args.model)
 curve = getattr(curves, args.curve)
 model = curves.CurveNet(
     num_classes,
