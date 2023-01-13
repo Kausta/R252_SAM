@@ -23,6 +23,7 @@ from omegaconf import OmegaConf, DictConfig
 Could probably have uploaded the results to wandb instead, but I think pandas will be more predictable and manageable for now.
 """
 
+
 def main():
     df = pd.read_csv("analysis/sharpness_collection.csv", index_col='run_name')
 
@@ -85,13 +86,13 @@ def main():
     Definitely need to scale down ambitions.
     """
 
-    rho = 0.1
-
     checkpoint_path = 'checkpoints/' + args.run_name + '/checkpoint-' + str(args.epoch) + '.ckpt'
     checkpoint = torch.load(checkpoint_path, map_location=device)
     model.load_state_dict(checkpoint['state_dict'])
     batches_128 = data.get_loaders('cifar10', 512, 128, 'train', True, False)
     batches_5000 = data.get_loaders('cifar10', 20000, 5000, 'train', True, False)
+
+    rho = 0.1
 
     if 'adversarial-128' in args.measures:
         sharpness, obj, err, obj_orig, err_orig = eval_sharpness_wrapper(device, model, rho, batches_128)
@@ -112,18 +113,46 @@ def main():
         df.to_csv('analysis/sharpness_collection.csv')
 
     if 'average-128' in args.measures:
-        average_sharpness = eval_avg_sharpness(device, model, batches_128, noisy_examples='none', sigma=0.1, n_repeat=1)
+        average_sharpness = eval_avg_sharpness(device, model, batches_128, noisy_examples='none', sigma=rho, n_repeat=1)
         df.loc[args.run_name, 'average-sharpness-128'] = average_sharpness
         df.to_csv('analysis/sharpness_collection.csv')
 
     if 'average-5000' in args.measures:
-        average_sharpness = eval_avg_sharpness(device, model, batches_5000, noisy_examples='none', sigma=0.1,
+        average_sharpness = eval_avg_sharpness(device, model, batches_5000, noisy_examples='none', sigma=rho,
                                                n_repeat=1)
         df.loc[args.run_name, 'average-sharpness-5000'] = average_sharpness
         df.to_csv('analysis/sharpness_collection.csv')
 
+    if 'adversarial-128-rho' in args.measures:
+        sharpness, obj, err, obj_orig, err_orig = eval_sharpness_wrapper(device, model, conf['sam/rho'], batches_128)
+        df.loc[args.run_name, 'sharpness-128-rho'] = sharpness
+        df.loc[args.run_name, 'obj-128-rho'] = obj
+        df.loc[args.run_name, 'err-128-rho'] = err
+        df.loc[args.run_name, 'obj_orig-128-rho'] = obj_orig
+        df.loc[args.run_name, 'err_orig-128-rho'] = err_orig
+        df.to_csv('analysis/sharpness_collection.csv')
+
+    if 'adversarial-5000-rho' in args.measures:
+        sharpness, obj, err, obj_orig, err_orig = eval_sharpness_wrapper(device, model, conf['sam/rho'], batches_5000)
+        df.loc[args.run_name, 'sharpness-5000-rho'] = sharpness
+        df.loc[args.run_name, 'obj-5000-rho'] = obj
+        df.loc[args.run_name, 'err-5000-rho'] = err
+        df.loc[args.run_name, 'obj_orig-5000-rho'] = obj_orig
+        df.loc[args.run_name, 'err_orig-5000-rho'] = err_orig
+        df.to_csv('analysis/sharpness_collection.csv')
+
+    if 'average-128-rho' in args.measures:
+        average_sharpness = eval_avg_sharpness(device, model, batches_128, noisy_examples='none', sigma=conf['sam/rho'], n_repeat=1)
+        df.loc[args.run_name, 'average-sharpness-128-rho'] = average_sharpness
+        df.to_csv('analysis/sharpness_collection.csv')
+
+    if 'average-5000-rho' in args.measures:
+        average_sharpness = eval_avg_sharpness(device, model, batches_5000, noisy_examples='none', sigma=conf['sam/rho'],
+                                               n_repeat=1)
+        df.loc[args.run_name, 'average-sharpness-5000-rho'] = average_sharpness
+        df.to_csv('analysis/sharpness_collection.csv')
+
     df.loc[args.run_name, 'epoch'] = args.epoch
-    df.loc[args.run_name, 'rho'] = rho
 
     if not args.no_config:
         for key, value in config_flat.items():
