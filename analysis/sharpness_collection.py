@@ -38,6 +38,7 @@ def main():
     parser.add_argument('--measures', nargs='*')
     parser.add_argument('--run_name', type=str)
     parser.add_argument('--no_config', action="store_true", default=False)
+    parser.add_argument('--rho', type=float)
     args = parser.parse_args()
     device = "cpu" # torch.device("cuda" if torch.cuda.is_available() else "mps" if torch.has_mps else "cpu")
 
@@ -124,7 +125,7 @@ def main():
         df.to_csv('analysis/sharpness_collection.csv')
 
     if 'adversarial-128-rho' in args.measures:
-        sharpness, obj, err, obj_orig, err_orig = eval_sharpness_wrapper(device, model, conf['sam/rho'], batches_128)
+        sharpness, obj, err, obj_orig, err_orig = eval_sharpness_wrapper(device, model, args.rho, batches_128)
         df.loc[args.run_name, 'sharpness-128-rho'] = sharpness
         df.loc[args.run_name, 'obj-128-rho'] = obj
         df.loc[args.run_name, 'err-128-rho'] = err
@@ -133,7 +134,7 @@ def main():
         df.to_csv('analysis/sharpness_collection.csv')
 
     if 'adversarial-5000-rho' in args.measures:
-        sharpness, obj, err, obj_orig, err_orig = eval_sharpness_wrapper(device, model, conf['sam/rho'], batches_5000)
+        sharpness, obj, err, obj_orig, err_orig = eval_sharpness_wrapper(device, model, args.rho, batches_5000)
         df.loc[args.run_name, 'sharpness-5000-rho'] = sharpness
         df.loc[args.run_name, 'obj-5000-rho'] = obj
         df.loc[args.run_name, 'err-5000-rho'] = err
@@ -142,12 +143,12 @@ def main():
         df.to_csv('analysis/sharpness_collection.csv')
 
     if 'average-128-rho' in args.measures:
-        average_sharpness = eval_avg_sharpness(device, model, batches_128, noisy_examples='none', sigma=conf['sam/rho'], n_repeat=1)
+        average_sharpness = eval_avg_sharpness(device, model, batches_128, noisy_examples='none', sigma=args.rho, n_repeat=1)
         df.loc[args.run_name, 'average-sharpness-128-rho'] = average_sharpness
         df.to_csv('analysis/sharpness_collection.csv')
 
     if 'average-5000-rho' in args.measures:
-        average_sharpness = eval_avg_sharpness(device, model, batches_5000, noisy_examples='none', sigma=conf['sam/rho'],
+        average_sharpness = eval_avg_sharpness(device, model, batches_5000, noisy_examples='none', sigma=args.rho,
                                                n_repeat=1)
         df.loc[args.run_name, 'average-sharpness-5000-rho'] = average_sharpness
         df.to_csv('analysis/sharpness_collection.csv')
