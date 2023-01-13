@@ -1,0 +1,143 @@
+sgd
+
+[restart=1] Sharpness: obj=0.2896, err=8.59%, delta_norm=0.10 (step=0.100, rho=0.1, n_iters=1)
+[restart=2] Sharpness: obj=0.2896, err=8.59%, delta_norm=0.10 (step=0.100, rho=0.1, n_iters=1)
+[restart=3] Sharpness: obj=0.2896, err=8.59%, delta_norm=0.10 (step=0.100, rho=0.1, n_iters=1)
+[restart=4] Sharpness: obj=0.2896, err=8.59%, delta_norm=0.10 (step=0.100, rho=0.1, n_iters=1)
+[restart=5] Sharpness: obj=0.2896, err=8.59%, delta_norm=0.10 (step=0.100, rho=0.1, n_iters=1)
+[restart=1] Sharpness: obj=0.2785, err=4.69%, delta_norm=0.10 (step=0.100, rho=0.1, n_iters=1)
+[restart=2] Sharpness: obj=0.2785, err=4.69%, delta_norm=0.10 (step=0.100, rho=0.1, n_iters=1)
+[restart=3] Sharpness: obj=0.2785, err=4.69%, delta_norm=0.10 (step=0.100, rho=0.1, n_iters=1)
+[restart=4] Sharpness: obj=0.2785, err=4.69%, delta_norm=0.10 (step=0.100, rho=0.1, n_iters=1)
+[restart=5] Sharpness: obj=0.2785, err=4.69%, delta_norm=0.10 (step=0.100, rho=0.1, n_iters=1)
+[restart=1] Sharpness: obj=0.3251, err=7.03%, delta_norm=0.10 (step=0.100, rho=0.1, n_iters=1)
+[restart=2] Sharpness: obj=0.3251, err=7.03%, delta_norm=0.10 (step=0.100, rho=0.1, n_iters=1)
+[restart=3] Sharpness: obj=0.3251, err=7.03%, delta_norm=0.10 (step=0.100, rho=0.1, n_iters=1)
+[restart=4] Sharpness: obj=0.3251, err=7.03%, delta_norm=0.10 (step=0.100, rho=0.1, n_iters=1)
+[restart=5] Sharpness: obj=0.3251, err=7.03%, delta_norm=0.10 (step=0.100, rho=0.1, n_iters=1)
+[restart=1] Sharpness: obj=0.3294, err=7.03%, delta_norm=0.10 (step=0.100, rho=0.1, n_iters=1)
+[restart=2] Sharpness: obj=0.3294, err=7.03%, delta_norm=0.10 (step=0.100, rho=0.1, n_iters=1)
+[restart=3] Sharpness: obj=0.3294, err=7.03%, delta_norm=0.10 (step=0.100, rho=0.1, n_iters=1)
+[restart=4] Sharpness: obj=0.3294, err=7.03%, delta_norm=0.10 (step=0.100, rho=0.1, n_iters=1)
+[restart=5] Sharpness: obj=0.3294, err=7.03%, delta_norm=0.10 (step=0.100, rho=0.1, n_iters=1)
+
+[restart=1] Sharpness: obj=0.2195, err=5.47%, delta_norm=0.10 (step=0.100, rho=0.1, n_iters=1)
+[restart=1] Sharpness: obj=0.4190, err=13.28%
+[restart=1] Sharpness: obj_orig=0.1995, err_orig=7.81%
+[restart=1] Sharpness: obj=0.3009, err=4.69%, delta_norm=0.10 (step=0.100, rho=0.1, n_iters=1)
+[restart=1] Sharpness: obj=0.6202, err=18.75%
+[restart=1] Sharpness: obj_orig=0.3193, err_orig=14.06%
+[restart=1] Sharpness: obj=0.3533, err=4.69%, delta_norm=0.10 (step=0.100, rho=0.1, n_iters=1)
+[restart=1] Sharpness: obj=0.7320, err=17.97%
+[restart=1] Sharpness: obj_orig=0.3787, err_orig=13.28%
+[restart=1] Sharpness: obj=0.3761, err=4.69%, delta_norm=0.10 (step=0.100, rho=0.1, n_iters=1)
+[restart=1] Sharpness: obj=0.7976, err=21.88%
+[restart=1] Sharpness: obj_orig=0.4215, err_orig=17.19%
+
+sam
+[restart=1] Sharpness: obj=0.4377, err=10.16%, delta_norm=0.10 (step=0.100, rho=0.1, n_iters=1)
+[restart=1] Sharpness: obj=0.4095, err=6.25%, delta_norm=0.10 (step=0.100, rho=0.1, n_iters=1)
+[restart=1] Sharpness: obj=0.3851, err=13.28%, delta_norm=0.10 (step=0.100, rho=0.1, n_iters=1)
+[restart=1] Sharpness: obj=0.3752, err=2.34%, delta_norm=0.10 (step=0.100, rho=0.1, n_iters=1)
+
+[restart=1] Sharpness: obj=0.3735, err=9.38%, delta_norm=0.10 (step=0.100, rho=0.1, n_iters=1)
+[restart=1] Sharpness: obj=0.5947, err=19.53%
+[restart=1] Sharpness: obj_orig=0.2212, err_orig=10.16%
+[restart=1] Sharpness: obj=0.3906, err=5.47%, delta_norm=0.10 (step=0.100, rho=0.1, n_iters=1)
+[restart=1] Sharpness: obj=0.7050, err=17.97%
+[restart=1] Sharpness: obj_orig=0.3145, err_orig=12.50%
+[restart=1] Sharpness: obj=0.4838, err=7.81%, delta_norm=0.10 (step=0.100, rho=0.1, n_iters=1)
+[restart=1] Sharpness: obj=0.9031, err=25.78%
+[restart=1] Sharpness: obj_orig=0.4193, err_orig=17.97%
+[restart=1] Sharpness: obj=0.4419, err=7.81%, delta_norm=0.10 (step=0.100, rho=0.1, n_iters=1)
+[restart=1] Sharpness: obj=0.7962, err=21.88%
+[restart=1] Sharpness: obj_orig=0.3543, err_orig=14.06%
+
+
+
+
+Train
+
+sgd
+[restart=1] Sharpness: obj=0.2128, err=10.16%, delta_norm=0.10 (step=0.100, rho=0.1, n_iters=1)
+[restart=1] Sharpness: obj=0.4049, err=15.62%
+[restart=1] Sharpness: obj_orig=0.1921, err_orig=5.47%
+[restart=1] Sharpness: obj=0.2622, err=4.69%, delta_norm=0.10 (step=0.100, rho=0.1, n_iters=1)
+[restart=1] Sharpness: obj=0.5143, err=12.50%
+[restart=1] Sharpness: obj_orig=0.2522, err_orig=7.81%
+[restart=1] Sharpness: obj=0.2431, err=7.03%, delta_norm=0.10 (step=0.100, rho=0.1, n_iters=1)
+[restart=1] Sharpness: obj=0.4256, err=13.28%
+[restart=1] Sharpness: obj_orig=0.1826, err_orig=6.25%
+[restart=1] Sharpness: obj=0.2816, err=7.03%, delta_norm=0.10 (step=0.100, rho=0.1, n_iters=1)
+[restart=1] Sharpness: obj=0.5091, err=16.41%
+[restart=1] Sharpness: obj_orig=0.2275, err_orig=9.38%
+
+[restart=1] Sharpness: obj=0.2438, err=10.16%, delta_norm=0.10 (step=0.100, rho=0.1, n_iters=1)
+[restart=1] Sharpness: obj=0.4142, err=14.06%
+[restart=1] Sharpness: obj_orig=0.1703, err_orig=3.91%
+[restart=1] Sharpness: obj=0.2474, err=7.03%, delta_norm=0.10 (step=0.100, rho=0.1, n_iters=1)
+[restart=1] Sharpness: obj=0.4679, err=14.06%
+[restart=1] Sharpness: obj_orig=0.2205, err_orig=7.03%
+[restart=1] Sharpness: obj=0.2624, err=7.81%, delta_norm=0.10 (step=0.100, rho=0.1, n_iters=1)
+[restart=1] Sharpness: obj=0.4838, err=14.06%
+[restart=1] Sharpness: obj_orig=0.2215, err_orig=6.25%
+[restart=1] Sharpness: obj=0.2512, err=9.38%, delta_norm=0.10 (step=0.100, rho=0.1, n_iters=1)
+[restart=1] Sharpness: obj=0.5451, err=17.97%
+[restart=1] Sharpness: obj_orig=0.2939, err_orig=8.59%
+
+sam
+[restart=1] Sharpness: obj=0.3196, err=13.28%, delta_norm=0.10 (step=0.100, rho=0.1, n_iters=1)
+[restart=1] Sharpness: obj=0.5103, err=19.53%
+[restart=1] Sharpness: obj_orig=0.1907, err_orig=6.25%
+[restart=1] Sharpness: obj=0.2859, err=7.03%, delta_norm=0.10 (step=0.100, rho=0.1, n_iters=1)
+[restart=1] Sharpness: obj=0.4724, err=12.50%
+[restart=1] Sharpness: obj_orig=0.1865, err_orig=5.47%
+[restart=1] Sharpness: obj=0.2670, err=11.72%, delta_norm=0.10 (step=0.100, rho=0.1, n_iters=1)
+[restart=1] Sharpness: obj=0.4392, err=14.84%
+[restart=1] Sharpness: obj_orig=0.1722, err_orig=3.12%
+[restart=1] Sharpness: obj=0.3106, err=10.94%, delta_norm=0.10 (step=0.100, rho=0.1, n_iters=1)
+[restart=1] Sharpness: obj=0.4938, err=16.41%
+[restart=1] Sharpness: obj_orig=0.1832, err_orig=5.47%
+
+checkpoints/trim-water-150/checkpoint-199.ckpt
+[restart=1] Sharpness: obj=0.1509, err=10.94%, delta_norm=0.10 (step=0.100, rho=0.1, n_iters=1)
+[restart=1] Sharpness: obj=0.3056, err=13.28%
+[restart=1] Sharpness: obj_orig=0.1547, err_orig=2.34%
+[restart=1] Sharpness: obj=0.1676, err=4.69%, delta_norm=0.10 (step=0.100, rho=0.1, n_iters=1)
+[restart=1] Sharpness: obj=0.3624, err=8.59%
+[restart=1] Sharpness: obj_orig=0.1947, err_orig=3.91%
+[restart=1] Sharpness: obj=0.1400, err=6.25%, delta_norm=0.10 (step=0.100, rho=0.1, n_iters=1)
+[restart=1] Sharpness: obj=0.3060, err=10.16%
+[restart=1] Sharpness: obj_orig=0.1660, err_orig=3.91%
+[restart=1] Sharpness: obj=0.1387, err=4.69%, delta_norm=0.10 (step=0.100, rho=0.1, n_iters=1)
+[restart=1] Sharpness: obj=0.3109, err=8.59%
+[restart=1] Sharpness: obj_orig=0.1722, err_orig=3.91%
+
+checkpoints/treasured-bush-159/checkpoint-199.ckpt
+[restart=1] Sharpness: obj=0.1063, err=6.25%, delta_norm=0.10 (step=0.100, rho=0.1, n_iters=1)
+[restart=1] Sharpness: obj=0.3405, err=9.38%
+[restart=1] Sharpness: obj_orig=0.2342, err_orig=3.12%
+[restart=1] Sharpness: obj=0.0959, err=4.69%, delta_norm=0.10 (step=0.100, rho=0.1, n_iters=1)
+[restart=1] Sharpness: obj=0.3225, err=7.03%
+[restart=1] Sharpness: obj_orig=0.2265, err_orig=2.34%
+[restart=1] Sharpness: obj=0.0931, err=3.91%, delta_norm=0.10 (step=0.100, rho=0.1, n_iters=1)
+[restart=1] Sharpness: obj=0.3006, err=7.81%
+[restart=1] Sharpness: obj_orig=0.2075, err_orig=3.91%
+[restart=1] Sharpness: obj=0.0820, err=4.69%, delta_norm=0.10 (step=0.100, rho=0.1, n_iters=1)
+[restart=1] Sharpness: obj=0.2658, err=7.81%
+[restart=1] Sharpness: obj_orig=0.1838, err_orig=3.12%
+
+checkpoints/silver-haze-107/last.ckpt
+[restart=1] Sharpness: obj=0.1388, err=7.81%, delta_norm=0.10 (step=0.100, rho=0.1, n_iters=1)
+[restart=1] Sharpness: obj=0.3172, err=12.50%
+[restart=1] Sharpness: obj_orig=0.1783, err_orig=4.69%
+[restart=1] Sharpness: obj=0.1177, err=2.34%, delta_norm=0.10 (step=0.100, rho=0.1, n_iters=1)
+[restart=1] Sharpness: obj=0.2914, err=8.59%
+[restart=1] Sharpness: obj_orig=0.1737, err_orig=6.25%
+[restart=1] Sharpness: obj=0.1209, err=4.69%, delta_norm=0.10 (step=0.100, rho=0.1, n_iters=1)
+[restart=1] Sharpness: obj=0.2973, err=8.59%
+[restart=1] Sharpness: obj_orig=0.1765, err_orig=3.91%
+[restart=1] Sharpness: obj=0.1528, err=7.81%, delta_norm=0.10 (step=0.100, rho=0.1, n_iters=1)
+[restart=1] Sharpness: obj=0.3882, err=12.50%
+[restart=1] Sharpness: obj_orig=0.2354, err_orig=4.69%
+
