@@ -36,10 +36,11 @@ def main():
     parser.add_argument("--epoch", type=int, default=199)
     parser.add_argument('--measures', nargs='*')
     parser.add_argument('--run_name', type=str)
+    parser.add_argument('--no_config', type=bool, default=False)
     args = parser.parse_args()
     device = "cpu" # torch.device("cuda" if torch.cuda.is_available() else "mps" if torch.has_mps else "cpu")
 
-    if args.run_name == 'mobilenetv2':
+    if args.no_config:
         conf = load_config("config/mobilenetv2.yaml")
     else:
         api = wandb.Api()
@@ -71,23 +72,6 @@ def main():
 
     Model = getattr(trainers, conf.trainer.trainer)
     model = Model(conf)
-
-
-    sam_checkpoints = [
-        'checkpoints/distinctive-disco-153/checkpoint-199.ckpt',
-        'checkpoints/trim-water-150/checkpoint-199.ckpt',
-        'checkpoints/treasured-bush-159/checkpoint-199.ckpt',
-        'checkpoints/silver-haze-107/last.ckpt',
-    ]
-
-    sgd_checkpoints = [
-        'checkpoints/stoic-jazz-100/last.ckpt',
-        'checkpoints/kind-durian-155/last.ckpt',
-    ]
-
-    average_checkpoints = [
-
-    ]
 
     """
     Graphs to generate
@@ -141,7 +125,7 @@ def main():
     df.loc[args.run_name, 'epoch'] = args.epoch
     df.loc[args.run_name, 'rho'] = rho
 
-    if args.run_name != 'mobilenetv2':
+    if not args.no_config:
         for key, value in config_flat.items():
             df.loc[args.run_name, key] = value['value']
 
