@@ -36,7 +36,7 @@ def main():
     parser.add_argument("--epoch", type=int, default=199)
     parser.add_argument('--measures', nargs='*')
     parser.add_argument('--run_name', type=str)
-    parser.add_argument('--no_config', type=bool, default=False)
+    parser.add_argument('--no_config', action="store_true", default=False)
     args = parser.parse_args()
     device = "cpu" # torch.device("cuda" if torch.cuda.is_available() else "mps" if torch.has_mps else "cpu")
 
