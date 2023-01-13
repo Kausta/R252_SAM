@@ -91,7 +91,7 @@ def main():
     checkpoint = torch.load(checkpoint_path, map_location=device)
     model.load_state_dict(checkpoint['state_dict'])
     batches_128 = data.get_loaders('cifar10', 512, 128, 'train', True, False)
-    batches_5000 = data.get_loaders('cifar10', 5000, 5000, 'train', True, False)
+    batches_5000 = data.get_loaders('cifar10', 20000, 5000, 'train', True, False)
 
     if 'adversarial-128' in args.measures:
         sharpness, obj, err, obj_orig, err_orig = eval_sharpness_wrapper(device, model, rho, batches_128)
