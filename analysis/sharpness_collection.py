@@ -257,9 +257,9 @@ def eval_sharpness(device, model, batches, loss_f, rho, step_size, n_iters, n_re
             if err > final_err:
                 best_obj, final_err, final_grad_norm = obj, err, grad_norm
             model.load_state_dict(orig_model_state_dict)
-            objs.append(obj)
+            objs.append(obj.cpu().numpy())
             errs.append(err)
-            obj_origs.append(obj_orig)
+            obj_origs.append(obj_orig.cpu().numpy())
             err_origs.append(err_orig)
             if verbose:
                 delta_norm_total = torch.cat([delta_param.flatten() for delta_param in delta_dict.values()]).norm()
@@ -277,12 +277,7 @@ def eval_sharpness(device, model, batches, loss_f, rho, step_size, n_iters, n_re
         best_obj_sum, final_err_sum, final_grad_norm_sum = best_obj_sum + best_obj, final_err_sum + final_err, final_grad_norm_sum + final_grad_norm
         n_batches += 1
 
-    print(type(objs[0]))
-    print(type(errs[0]))
-    print(type(obj_origs[0]))
-    print(type(err_origs[0]))
-    return np.mean(objs.cpu().numpy()) - np.mean(obj_origs.cpu().numpy()), np.mean(objs.cpu().numpy()), np.mean(
-        errs), np.mean(obj_origs.cpu().numpy()), np.mean(err_origs)
+    return np.mean(objs) - np.mean(obj_origs), np.mean(objs), np.mean(errs), np.mean(obj_origs), np.mean(err_origs)
 
 
 if __name__ == '__main__':
