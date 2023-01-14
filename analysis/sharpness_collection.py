@@ -281,7 +281,8 @@ def eval_sharpness(device, model, batches, loss_f, rho, step_size, n_iters, n_re
     print(type(errs[0]))
     print(type(obj_origs[0]))
     print(type(err_origs[0]))
-    return np.mean(objs) - np.mean(obj_origs), np.mean(objs), np.mean(errs), np.mean(obj_origs), np.mean(err_origs)
+    return np.mean(objs.cpu().numpy()) - np.mean(obj_origs.cpu().numpy()), np.mean(objs.cpu().numpy()), np.mean(
+        errs), np.mean(obj_origs.cpu().numpy()), np.mean(err_origs)
 
 
 if __name__ == '__main__':
