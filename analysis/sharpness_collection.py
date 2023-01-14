@@ -277,7 +277,8 @@ def eval_sharpness(device, model, batches, loss_f, rho, step_size, n_iters, n_re
         best_obj_sum, final_err_sum, final_grad_norm_sum = best_obj_sum + best_obj, final_err_sum + final_err, final_grad_norm_sum + final_grad_norm
         n_batches += 1
 
-    return np.mean(objs) - np.mean(obj_origs), np.mean(objs), np.mean(errs), np.mean(obj_origs), np.mean(err_origs)
+    return np.mean(objs.cpu().numpy()) - np.mean(obj_origs.cpu().numpy()), np.mean(objs.cpu().numpy()), np.mean(
+        errs.cpu().numpy()), np.mean(obj_origs.cpu().numpy()), np.mean(err_origs.cpu().numpy())
 
 
 if __name__ == '__main__':
