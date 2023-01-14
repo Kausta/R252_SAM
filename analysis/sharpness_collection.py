@@ -197,6 +197,7 @@ def eval_sharpness(device, model, batches, loss_f, rho, step_size, n_iters, n_re
                    no_grad_norm=False, layer_name_pattern='all', random_targets=False, batch_transfer=False,
                    rand_init=False, verbose=False):
     orig_model_state_dict = copy.deepcopy(model.state_dict())
+    model.to(device)
 
     n_batches, best_obj_sum, final_err_sum, final_grad_norm_sum = 0, 0, 0, 0
     objs, errs, obj_origs, err_origs = [], [], [], []
