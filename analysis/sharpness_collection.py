@@ -153,6 +153,7 @@ def main():
 def eval_avg_sharpness(device, model, batches, noisy_examples, sigma, n_repeat=5):
     scaler = torch.cuda.amp.GradScaler(enabled=False)
     loss_diff = 0
+    model.to(device)
     for i in range(n_repeat):
         _, loss_before, _ = utils_eval.rob_err(device, batches, model, 0, 0, scaler, 0, 1, noisy_examples=noisy_examples, n_batches=1)
         weights_delta_dict = utils_train.perturb_weights(device, model, add_weight_perturb_scale=sigma, mul_weight_perturb_scale=0,
