@@ -63,7 +63,7 @@ def attack_pgd(device, model, X, y, eps, alpha, scaler, attack_iters, n_restarts
 
 
 def rob_err(device, batches, model, eps, pgd_alpha, scaler, attack_iters, n_restarts, rs=True, linf_proj=True,
-            l2_grad_update=False, verbose=False, cuda=False, noisy_examples='default', loss_f=F.cross_entropy,
+            l2_grad_update=False, verbose=False, cuda=True, noisy_examples='default', loss_f=F.cross_entropy,
             n_batches=-1):
     n_corr_classified, train_loss_sum, n_ex = 0, 0.0, 0
     pgd_delta_list, pgd_delta_proj_list = [], []

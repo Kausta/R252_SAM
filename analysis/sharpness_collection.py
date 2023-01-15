@@ -40,7 +40,7 @@ def main():
     parser.add_argument('--no_config', action="store_true", default=False)
     parser.add_argument('--rho', type=float)
     args = parser.parse_args()
-    device = "cpu" # torch.device("cuda" if torch.cuda.is_available() else "mps" if torch.has_mps else "cpu")
+    device = torch.device("cuda" if torch.cuda.is_available() else "mps" if torch.has_mps else "cpu")
 
     if args.no_config:
         conf = load_config("config/mobilenetv2.yaml")
@@ -90,8 +90,8 @@ def main():
     checkpoint_path = 'checkpoints/' + args.run_name + '/checkpoint-' + str(args.epoch) + '.ckpt'
     checkpoint = torch.load(checkpoint_path, map_location=device)
     model.load_state_dict(checkpoint['state_dict'])
-    batches_128 = data.get_loaders('cifar10', 512, 128, 'train', True, False)
-    batches_5000 = data.get_loaders('cifar10', 20000, 5000, 'train', True, False)
+    batches_128 = data.get_loaders('cifar10', 128, 128, 'train', True, False)
+    batches_5000 = data.get_loaders('cifar10', 5000, 5000, 'train', True, False)
 
     rho = 0.1
 
@@ -114,13 +114,13 @@ def main():
         df.to_csv('analysis/sharpness_collection.csv')
 
     if 'average-128' in args.measures:
-        average_sharpness, average_high = eval_avg_sharpness(device, model, batches_128, noisy_examples='none', sigma=rho, n_repeat=25)
+        average_sharpness, average_high = eval_avg_sharpness(device, model, batches_128, noisy_examples='none', sigma=rho, n_repeat=15)
         df.loc[args.run_name, 'average-sharpness-128'] = average_sharpness
         df.to_csv('analysis/sharpness_collection.csv')
 
     if 'average-5000' in args.measures:
         average_sharpness, average_high = eval_avg_sharpness(device, model, batches_5000, noisy_examples='none', sigma=rho,
-                                               n_repeat=25)
+                                               n_repeat=15)
         df.loc[args.run_name, 'average-sharpness-5000'] = average_sharpness
         df.to_csv('analysis/sharpness_collection.csv')
 
