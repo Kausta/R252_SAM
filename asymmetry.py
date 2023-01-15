@@ -20,15 +20,18 @@ def strip_prefix(string, prefix):
 
 def get_loss(batches, model, loss, label):
     loss_total = 0
+    n_total = 0
 
     for x, y in tqdm(batches, desc="Calculating loss %s" % label, leave=False):
         if USE_CUDA:
             x, y = x.cuda(), y.cuda()
 
+        batch_size = y.size(0)
         output = model(x)
-        loss_total += loss(output, y)
+        loss_total += loss(output, y) * batch_size
+        n_total += batch_size
 
-    return loss_total.cpu().numpy() / len(batches)
+    return loss_total.cpu().numpy() / n_total
 
 
 def get_random_unit_perturbation(model):
