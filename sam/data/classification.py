@@ -28,7 +28,7 @@ class ClassificationDataset(data.Dataset):
         training = self.phase == "train"
         if dataset == "cifar10":
             transforms = []
-            if training:
+            if training and False:
                 if config.data.use_autoaugment:
                     transforms.append(T.AutoAugment(T.AutoAugmentPolicy.CIFAR10))
                 transforms.extend([
@@ -51,7 +51,7 @@ class ClassificationDataset(data.Dataset):
                 # From original jax sam implementation 
                 T.Normalize(mean, std),
             ])
-            if training and config.data.use_cutout:
+            if training and config.data.use_cutout and False:
                 transforms.append(snn.Cutout(length=16, inplace=True))
             self.dataset = datasets.CIFAR10(self.data_root, train=training, transform=T.Compose(transforms), download=True)
         else:
