@@ -101,7 +101,7 @@ def load_checkpoint(file_path):
     if USE_CUDA:
         model = model.cuda()
 
-    return model, loss, batches
+    return model.eval(), loss, batches
 
 
 def get_random_direction(model, loss, batches, intervals):
