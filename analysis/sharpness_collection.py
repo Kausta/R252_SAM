@@ -114,14 +114,24 @@ def main():
         df.to_csv('analysis/sharpness_collection.csv')
 
     if 'average-128' in args.measures:
-        average_sharpness, average_high = eval_avg_sharpness(device, model, batches_128, noisy_examples='none', sigma=rho, n_repeat=15)
-        df.loc[args.run_name, 'average-sharpness-128'] = average_sharpness
+        average_sharpness_05, average_high_05 = eval_avg_sharpness(device, model, batches_128, noisy_examples='none', sigma=0.5, n_repeat=15)
+        average_sharpness_1, average_high_1 = eval_avg_sharpness(device, model, batches_128, noisy_examples='none',
+                                                                   sigma=1, n_repeat=15)
+        df.loc[args.run_name, 'average-sharpness-128-05'] = average_sharpness_05
+        df.loc[args.run_name, 'average-high-128-05'] = average_high_05
+        df.loc[args.run_name, 'average-sharpness-128-1'] = average_sharpness_1
+        df.loc[args.run_name, 'average-high-128-1'] = average_high_1
         df.to_csv('analysis/sharpness_collection.csv')
 
     if 'average-5000' in args.measures:
-        average_sharpness, average_high = eval_avg_sharpness(device, model, batches_5000, noisy_examples='none', sigma=rho,
+        average_sharpness_05, average_high_05 = eval_avg_sharpness(device, model, batches_5000, noisy_examples='none', sigma=0.5,
                                                n_repeat=15)
-        df.loc[args.run_name, 'average-sharpness-5000'] = average_sharpness
+        average_sharpness_1, average_high_1 = eval_avg_sharpness(device, model, batches_5000, noisy_examples='none',
+                                                                   sigma=1, n_repeat=15)
+        df.loc[args.run_name, 'average-sharpness-5000-05'] = average_sharpness_05
+        df.loc[args.run_name, 'average-high-5000-05'] = average_high_05
+        df.loc[args.run_name, 'average-sharpness-5000-1'] = average_sharpness_1
+        df.loc[args.run_name, 'average-high-5000-1'] = average_high_1
         df.to_csv('analysis/sharpness_collection.csv')
 
     if 'custom' in args.measures:
