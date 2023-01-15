@@ -40,7 +40,7 @@ def main():
     parser.add_argument('--no_config', action="store_true", default=False)
     parser.add_argument('--rho', type=float)
     args = parser.parse_args()
-    device = torch.device("cuda" if torch.cuda.is_available() else "mps" if torch.has_mps else "cpu")
+    device = "cpu" # torch.device("cuda" if torch.cuda.is_available() else "mps" if torch.has_mps else "cpu")
 
     if args.no_config:
         conf = load_config("config/mobilenetv2.yaml")
@@ -114,13 +114,13 @@ def main():
         df.to_csv('analysis/sharpness_collection.csv')
 
     if 'average-128' in args.measures:
-        average_sharpness = eval_avg_sharpness(device, model, batches_128, noisy_examples='none', sigma=rho, n_repeat=1)
+        average_sharpness, average_high = eval_avg_sharpness(device, model, batches_128, noisy_examples='none', sigma=rho, n_repeat=25)
         df.loc[args.run_name, 'average-sharpness-128'] = average_sharpness
         df.to_csv('analysis/sharpness_collection.csv')
 
     if 'average-5000' in args.measures:
-        average_sharpness = eval_avg_sharpness(device, model, batches_5000, noisy_examples='none', sigma=rho,
-                                               n_repeat=1)
+        average_sharpness, average_high = eval_avg_sharpness(device, model, batches_5000, noisy_examples='none', sigma=rho,
+                                               n_repeat=25)
         df.loc[args.run_name, 'average-sharpness-5000'] = average_sharpness
         df.to_csv('analysis/sharpness_collection.csv')
 
@@ -152,9 +152,9 @@ def main():
 
 def eval_avg_sharpness(device, model, batches, noisy_examples, sigma, n_repeat=5):
     scaler = torch.cuda.amp.GradScaler(enabled=False)
-    loss_diff = 0
+    loss_diffs = []
+    high_diffs = []
     model.to(device)
-    batches.to(device)
     for i in range(n_repeat):
         _, loss_before, _ = utils_eval.rob_err(device, batches, model, 0, 0, scaler, 0, 1, noisy_examples=noisy_examples, n_batches=1)
         weights_delta_dict = utils_train.perturb_weights(device, model, add_weight_perturb_scale=sigma, mul_weight_perturb_scale=0,
@@ -162,9 +162,10 @@ def eval_avg_sharpness(device, model, batches, noisy_examples, sigma, n_repeat=5
         _, loss_after, _ = utils_eval.rob_err(device, batches, model, 0, 0, scaler, 0, 1, noisy_examples=noisy_examples, n_batches=1)
         utils_train.subtract_weight_delta(model, weights_delta_dict)
 
-        loss_diff += (loss_after - loss_before) / n_repeat
+        loss_diffs.append(loss_after - loss_before)
+        high_diffs.append(loss_after)
 
-    return loss_diff
+    return np.mean(loss_diffs), np.mean(high_diffs)
 
 
 def eval_sharpness_wrapper(device, model, rho, batches_sharpness):

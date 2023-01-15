@@ -23,7 +23,7 @@ def bar_sharpness():
         "5000-sam rho=0.1"
     ]
     df = df.sort_values(by="run_description", key=lambda x: run_description_order.index(x))"""
-    df.plot.bar(x="run_description", y=["sharpness-5000-0.05", "sharpness-5000", "sharpness-5000-0.2", "sharpness-128-0.05", "sharpness-128", "sharpness-128-0.2"], ax=ax)
+    df.plot.bar(x="run_description", y=["sharpness-5000-0.05", "sharpness-5000", "sharpness-5000-0.2", "sharpness-128-0.05", "sharpness-128", "sharpness-128-0.2", ""], ax=ax)
     # Legend title
     ax.legend(title="Sharpness Measure at Minima")
     # Set the labels and title
@@ -140,4 +140,4 @@ def adversarial_test_loss():
 
 
 if __name__ == '__main__':
-    bar_adversarial()
+    bar_sharpness()
