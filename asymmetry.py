@@ -159,7 +159,7 @@ if __name__ == "__main__":
             losses = get_random_direction(
                 model, loss, batches, args.get_random_direction
             )
-            print("dist", "loss") 
+            print("dist", "loss")
             for dist, loss in zip(args.get_random_direction, losses):
                 print(dist, loss)
 
