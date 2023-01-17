@@ -23,7 +23,7 @@ ynegflat = [f2(i) for i in xneg]
 ynegquad = [f1(i) for i in xneg]
 
 plt.figure(figsize=(2, 2))
-plt.scatter(0, 0, color="orange", s=30)
+plt.scatter(0, 0, color="orange", s=30, label=r"$\bm{w}^*$")
 plt.plot(xpos, ypos, color="dodgerblue")
 plt.plot(xneg, ynegquad, color="red")
 plt.plot(xneg, ynegflat, color="green")
@@ -31,4 +31,5 @@ plt.xlabel(r"$\mu$")
 plt.ylabel(r"$L_\mathcal{S}(\bm{w}^* + \mu\bm{\hat{u}})$")
 plt.xticks([])
 plt.yticks([])
+plt.legend()
 plt.savefig("asymmetry-plots/asymmetry-fake.pdf")
