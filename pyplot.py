@@ -11,7 +11,7 @@ plt.rcParams.update(
         "legend.frameon": True,
         "legend.framealpha": 0.8,
         "legend.fancybox": True,
-        "figure.figsize": (5.4, 4.0),
+        "figure.figsize": (5.4, 3.0),
         "savefig.bbox": "tight",
         "savefig.pad_inches": 0,
     }
